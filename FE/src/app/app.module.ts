@@ -11,9 +11,10 @@ import { AppComponent } from './app.component';
 import { ComponentsModule } from './Shared/components/components.module';
 import { PermissionDirective } from './Shared/directives/permission.directive';
 import { ApiInterceptor } from './Shared/interceptors/api.interceptor';
+import { ExternalUrlPipe } from './Shared/pipes/external-url.pipe';
 
 @NgModule({
-  declarations: [AppComponent, PermissionDirective],
+  declarations: [AppComponent, PermissionDirective, ExternalUrlPipe],
   imports: [
     BrowserModule,
     AppRoutingModule,

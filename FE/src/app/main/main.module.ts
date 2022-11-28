@@ -15,28 +15,32 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { MainComponent } from '../main/main.component';
 import { ComponentsModule } from '../Shared/components/components.module';
 import { MainRoutingModule } from './main-routing.module';
-import { UserListComponent } from './user-list/user-list.component';
+import { DsLoaiSPComponent } from './ds-loai-sp/ds-loai-sp.component';
+import { DSSanPhamComponent } from './dssan-pham/dssan-pham.component';
+import { ChiTietSPComponent } from './chi-tiet-sp/chi-tiet-sp.component';
 
 @NgModule({
-  declarations: [
-    MainComponent,
-    UserListComponent,
-  ],
-  imports: [
-    CommonModule,
-    MainRoutingModule,
-    ComponentsModule,
-    TableModule,
-    ToolbarModule,
-    InputTextModule,
-    DialogModule,
-    SplitButtonModule,
-    RippleModule,
-    DropdownModule,
-    FormsModule,
-    CalendarModule,
-    InputNumberModule,
-    ToggleButtonModule,
-  ],
+    declarations: [
+        MainComponent,
+        DsLoaiSPComponent,
+        DSSanPhamComponent,
+        ChiTietSPComponent,
+    ],
+    imports: [
+        CommonModule,
+        MainRoutingModule,
+        ComponentsModule,
+        TableModule,
+        ToolbarModule,
+        InputTextModule,
+        DialogModule,
+        SplitButtonModule,
+        RippleModule,
+        DropdownModule,
+        FormsModule,
+        CalendarModule,
+        InputNumberModule,
+        ToggleButtonModule,
+    ]
 })
 export class MainModule {}

@@ -10,12 +10,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TableModule } from 'primeng/table';
+import { FileUploadModule } from 'primeng/fileupload';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout/layout.component';
+import { LoaiSPComponent } from './loai-sp/loai-sp.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserComponent } from './user/user.component';
+import { SanphamComponent } from './sanpham/sanpham.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,8 @@ import { UserComponent } from './user/user.component';
     SidebarComponent,
     PageNotFoundComponent,
     UserComponent,
+    LoaiSPComponent,
+    SanphamComponent,
   ],
   imports: [
     CommonModule,
@@ -38,10 +43,13 @@ import { UserComponent } from './user/user.component';
     RippleModule,
     FormsModule,
     ReactiveFormsModule,
-    DropdownModule
+    DropdownModule,
+    FileUploadModule
   ],
   exports: [
     LayoutComponent,
+    LoaiSPComponent,
+    SanphamComponent
   ],
 })
 export class ComponentsModule {}

@@ -1,0 +1,48 @@
+<form
+  [formGroup]="form"
+  class="p-fluid"
+  (submit)="submit()"
+>
+  <div class="field">
+    <label for="tenSP">Sản phẩm</label>
+    <input
+      type="text"
+      name="tenSP"
+      id="tenLSP"
+      pInputText
+      formControlName="tenSP"
+    />
+  </div>
+  <div class="field">
+    <label for="uuDai">Ưu đãi</label>
+    <input
+      type="text"
+      name="uuDai"
+      id="uuDai"
+      pInputText
+      formControlName="uuDai"
+    />
+  </div>
+  <div class="field">
+    <label for="anhSP">Ảnh loại</label>
+    <p-fileUpload
+      type="text"
+      name="anhSP"
+      id="anhSP"
+      pInputText
+      formControlName="anhSP"
+
+    ></p-fileUpload>
+  </div>
+
+  <div class="flex mt-3 justify-content-end">
+    <button
+      pButton
+      pRipple
+      label="Lưu"
+      class="p-button-outlined p-button-success w-auto"
+      icon="fa-regular fa-floppy-disk"
+      type="submit"
+    ></button>
+  </div>
+</form>

@@ -94,7 +94,7 @@ builder.Services.AddCors(options =>
         {
             b.WithOrigins(builder.Configuration["Clients:Origins"].Split(';'))
             .AllowAnyHeader()
-            .WithMethods("GET", "POST", "PUT")
+            .AllowAnyMethod()
             .AllowCredentials();
         });
 });

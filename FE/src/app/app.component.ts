@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import { MainService } from './Shared/hubs/main.service';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +7,8 @@ import { MainService } from './Shared/hubs/main.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'EventRegistryManagement';
-  constructor(primeConfig: PrimeNGConfig, mainService: MainService) {
+  title = 'CMS | Thích Dân';
+  constructor(primeConfig: PrimeNGConfig) {
     primeConfig.ripple = true;
   }
 }

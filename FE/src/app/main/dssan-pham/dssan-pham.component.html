@@ -1,0 +1,95 @@
+<p-toolbar>
+  <ng-template pTemplate="left">
+    <p-splitButton
+      label="Thêm mới"
+      [model]="btnItems"
+      (onClick)="showAdd()"
+    ></p-splitButton>
+  </ng-template>
+  <ng-template pTemplate="right">
+    <span class="p-input-icon-left ml-auto">
+      <i class="pi pi-search"></i>
+      <input
+        pInputText
+        type="text"
+        #searchInput
+        (input)="table.filterGlobal(searchInput.value, 'contains')"
+        placeholder="Tìm kiếm"
+      />
+    </span>
+  </ng-template>
+</p-toolbar>
+<small>Giữ phím Ctrl hoặc Meta để chọn nhiều cột</small>
+<p-table
+  scrollHeight="calc(100vh - {{ tableOffsetTop }}px)"
+  [value]="items"
+  [globalFilterFields]="['anhSP', 'tenSP', 'uuDai']"
+  dataKey="id"
+  sortMode="multiple"
+  [scrollable]="true"
+  [(selection)]="selectedItems"
+>
+  <ng-template pTemplate="header">
+    <tr class="white-space-nowrap">
+      <th style="width: 4rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th pSortableColumn="tenSP">
+        Loại sản phẩm <p-sortIcon field="tenSP"></p-sortIcon>
+      </th>
+      <th pSortableColumn="uuDai">
+        Ưu dãi <p-sortIcon field="uuDai"></p-sortIcon>
+      </th>
+      <th pSortableColumn="anh">
+        Hình ảnh <p-sortIcon field="anhSP"></p-sortIcon>
+      </th>
+      <th style="width: 4rem"></th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-item
+  >
+    <tr class="white-space-nowrap">
+      <td>
+        <p-tableCheckbox [value]="item"></p-tableCheckbox>
+      </td>
+      <td>
+        <div class="font-semibold">{{ item.tenSP }}</div>
+      </td>
+      <td>
+        <div class="font-semibold">{{ item.uuDai }}</div>
+      </td>
+      <td>
+        <div class="font-semibold">{{ item.anh }}</div>
+      </td>
+
+      <td>
+        <button
+          pButton
+          pRipple
+          icon="fa-regular fa-pen-to-square"
+          class="p-button-sm p-button-text p-button-info p-button-rounded"
+          (click)="showEdit(item)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog
+  [style]="{ width: '50vw' }"
+  [resizable]="true"
+  [maximizable]="true"
+  appendTo="body"
+  header="Thông tin sản phẩm"
+  [breakpoints]="[{ '576px': '100vw' }]"
+  [(visible)]="showDialog"
+  [modal]="true"
+>
+  <app-sanpham
+    *ngIf="selectedItem"
+    [value]="selectedItem"
+    (validSubmit)="save($event)"
+  ></app-sanpham>
+</p-dialog>
