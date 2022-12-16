@@ -12,8 +12,17 @@ namespace Data
         {
         }
 
+        public DbSet<Blob> Blobs { get; set; }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Log> Logs { get; set; }
+        public DbSet<LoaiSP> LoaiSP { get; set; }
+        public DbSet<SanPham> SanPham { get; set; }
+        public DbSet<Slide> Slide { get; set; }
+        public DbSet<KhachHang> KhachHang { get; set; }
+        public DbSet<ThuongHieu> ThuongHieu { get; set; }
+        public DbSet<ChiTietSP> ChiTietSP { get; set; }
+        public DbSet<HoaDonBan> HoaDonBan { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -16,6 +16,7 @@ using Services.Implements;
 using Services.Interfaces;
 using System.ComponentModel;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Web.Http;
 using Utils.Constants;
 using Utils.Exceptions;
@@ -29,7 +30,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(o =>
 {
     o.Filters.Add<HttpResponseExceptionFilter>();
-}).ConfigureApiBehaviorOptions(options =>
+})
+    .AddJsonOptions(options => {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    })
+    .ConfigureApiBehaviorOptions(options =>
 {
     options.InvalidModelStateResponseFactory = context =>
         new BadRequestObjectResult(context.ModelState)
@@ -92,10 +97,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         b =>
         {
-            b.WithOrigins(builder.Configuration["Clients:Origins"].Split(';'))
+            b.AllowAnyOrigin()
             .AllowAnyHeader()
-            .WithMethods("GET", "POST", "PUT")
-            .AllowCredentials();
+            .AllowAnyMethod();
         });
 });
 

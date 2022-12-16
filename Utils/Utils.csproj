@@ -7,17 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Enums\**" />
     <Compile Remove="Filters\**" />
+    <EmbeddedResource Remove="Enums\**" />
     <EmbeddedResource Remove="Filters\**" />
+    <None Remove="Enums\**" />
     <None Remove="Filters\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Enums\" />
   </ItemGroup>
 
 </Project>

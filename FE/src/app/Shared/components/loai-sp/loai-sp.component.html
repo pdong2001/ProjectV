@@ -1,0 +1,39 @@
+<form
+  [formGroup]="form"
+  class="p-fluid"
+  (submit)="submit()"
+>
+  <div class="field">
+    <label for="tenLSP">Loại sản phẩm</label>
+    <input
+      type="text"
+      name="tenLSP"
+      id="tenLSP"
+      pInputText
+      formControlName="tenLSP"
+    />
+  </div>
+  <div class="field">
+    <label for="anh">Ảnh loại</label>
+    <p-fileUpload
+      type="text"
+      name="anh"
+      id="anh"
+      accept="image/*"
+      [showUploadButton]="false"
+      chooseLabel="Chọn"
+      cancelLabel="Hủy"
+    ></p-fileUpload>
+  </div>
+
+  <div class="flex mt-3 justify-content-end">
+    <button
+      pButton
+      pRipple
+      label="Lưu"
+      class="p-button-outlined p-button-success w-auto"
+      icon="fa-regular fa-floppy-disk"
+      type="submit"
+    ></button>
+  </div>
+</form>

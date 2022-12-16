@@ -1,0 +1,170 @@
+<form
+  [formGroup]="form"
+  class="p-fluid"
+  (submit)="submit()"
+>
+  <div class="field">
+    <label for="">Sản phẩm</label>
+    <p-dropdown
+      [options]="dssp"
+      optionValue="id"
+      optionLabel="tenSP"
+      [showClear]="true"
+      [filter]="true"
+      filterBy="tenSP"
+      formControlName="idSanPham"
+      placeholder="Chọn sản phẩm muốn nhập chi tiết"
+      emptyMessage="Không có sản phẩm"
+      emptyFilterMessage="Không tìm thấy sản phẩm phù hợp"
+      appendTo="body"
+    ></p-dropdown>
+  </div>
+
+  <div class="grid">
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="code">Mã Code</label>
+      <input
+        type="text"
+        name="code"
+        id="code"
+        pInputText
+        formControlName="code"
+      />
+    </div>
+    <div class="field col">
+      <label for="gia">Giá bán</label>
+      <p-inputNumber
+        type="text"
+        aria-label="gia"
+        id="gia"
+        formControlName="gia"
+      ></p-inputNumber>
+    </div>
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="mauSac">Màu sắc</label>
+      <div class="p-inputgroup">
+        <input
+          type="text"
+          aria-label="mauSac"
+          id="mauSac"
+          pInputText
+          formControlName="mauSac"
+        />
+        <input
+          id="color"
+          type="color"
+          style="
+            width: 0px;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            margin-top: auto;
+          "
+          #colorPicker
+        />
+        <label
+          for="color"
+          pButton
+          pRipple
+          icon="fa-solid fa-palette"
+          class="p-inputgroup-addon"
+          [style]="{ 'background-color': colorPicker.value }"
+        ></label>
+      </div>
+    </div>
+  </div>
+  <div class="grid">
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="kichThuoc">Kích thước</label>
+      <div class="p-inputgroup">
+        <p-inputNumber
+          type="text"
+          aria-label="kichThuoc"
+          id="kichThuoc"
+          formControlName="kichThuoc"
+        ></p-inputNumber>
+        <input
+          class="p-inputgroup-addon"
+          type="text"
+          aria-label="donVi"
+          id="donVi"
+          pInputText
+          formControlName="donVi"
+        />
+      </div>
+    </div>
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="soLuong">Số lượng</label>
+      <div class="p-inputgroup"></div>
+      <div class="p-inputgroup">
+        <p-inputNumber
+          type="text"
+          aria-label="soLuong"
+          id="soLuong"
+          formControlName="soLuong"
+        ></p-inputNumber>
+        <input
+          class="p-inputgroup-addon"
+          type="text"
+          aria-label="dvt"
+          id="dvt"
+          pInputText
+          formControlName="dvt"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label for="tskt">Thông số kỹ thuật</label>
+    <input
+      type="text"
+      aria-label="tskt"
+      id="tskt"
+      pInputText
+      formControlName="tskt"
+    />
+  </div>
+  <div class="field">
+    <label for="anhCT">Ảnh</label>
+    <p-fileUpload
+      type="text"
+      aria-label="anhCT"
+      id="anhCT"
+      accept="image/*"
+      [showUploadButton]="false"
+      chooseLabel="Chọn"
+      cancelLabel="Hủy"
+    ></p-fileUpload>
+  </div>
+  <div class="field">
+    <label for="">Mô tả</label>
+    <p-editor
+      [style]="{ height: '400px' }"
+      formControlName="moTa"
+    >
+    </p-editor>
+  </div>
+
+  <div class="flex mt-3 justify-content-end">
+    <button
+      pButton
+      pRipple
+      label="Lưu"
+      class="p-button-outlined p-button-success w-auto"
+      icon="fa-regular fa-floppy-disk"
+      type="submit"
+    ></button>
+  </div>
+</form>

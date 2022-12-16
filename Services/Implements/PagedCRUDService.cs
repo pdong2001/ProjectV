@@ -27,13 +27,13 @@ namespace Services.Implements
             _mapper = mapper;
         }
 
-        public virtual async Task<ServiceResponse<TDto>> CreateAsync(TUpSert input)
+        public virtual async Task<ServiceResponse<TKey>> CreateAsync(TUpSert input)
         {
-            var response = new ServiceResponse<TDto>();
+            var response = new ServiceResponse<TKey>();
             TEntity entity = _mapper.Map<TUpSert, TEntity>(input);
             if (await _repos.AddAsync(entity) != null)
             {
-                response.SetValue(_mapper.Map<TEntity, TDto>(entity));
+                response.SetValue(entity.Id);
             }
             else
             {
@@ -49,6 +49,13 @@ namespace Services.Implements
                 return ServiceResponse.CreateSuccess();
             }
             return ServiceResponse.CreateFailed();
+        }
+
+        public virtual async Task<ServiceResponse<int>> DeleteAsync(IEnumerable<TKey> keys)
+        {
+            var response = new ServiceResponse<int>();
+            response.SetValue(await _repos.DeleteAsync(keys));
+            return response;
         }
 
         public virtual async Task<ServiceResponse<TDto>> GetAsync(TKey id)
@@ -71,10 +78,12 @@ namespace Services.Implements
 
         public virtual IQueryable<TEntity> BeforeGet(TKey id, IQueryable<TEntity> query) { return query; }
 
+        public virtual IQueryable<TEntity> BeforeQuery(IQueryable<TEntity> query) { return query; }
+
         public virtual async Task<ServiceResponse<List<TDto>>> GetListAsync()
         {
             var response = new ServiceResponse<List<TDto>>();
-            var data = await _repos.ToListAsync();
+            var data = await BeforeQuery(_repos.GetQueryable()).ToListAsync();
             if (data != null && data.Any())
             {
                 var dtos = data.Select(e => _mapper.Map<TEntity, TDto>(e)).ToList();
@@ -93,9 +102,9 @@ namespace Services.Implements
             var query = _repos.GetQueryable();
             query = BeforeSearch(query, request);
             if (!string.IsNullOrWhiteSpace(request.Columns))
-                query = query.OrderBy(request.Columns + " " + request.Sort);
+                query = query.OrderBy(request.Columns.Trim(','));
             long count = await query.LongCountAsync();
-            var queryResult = await query.Skip((request.PageIndex - 1) & request.PageSize).Take(request.PageSize).ToListAsync();
+            var queryResult = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
             var dtos = queryResult.Select(e => _mapper.Map<TEntity, TDto>(e)).ToList();
             var result = new PageResultDto<TDto>
             {
@@ -108,9 +117,9 @@ namespace Services.Implements
 
         protected virtual IQueryable<TEntity> BeforeSearch(IQueryable<TEntity> query, TLookUp request) => query;
 
-        public virtual async Task<ServiceResponse<TDto>> UpdateAsync(TKey id, TUpSert input)
+        public virtual async Task<ServiceResponse> UpdateAsync(TKey id, TUpSert input)
         {
-            var response = new ServiceResponse<TDto>();
+            var response = new ServiceResponse();
             var entity = await _repos.GetAsync(id);
             if (entity == null) throw new UserFriendlyException("Not found");
             else
@@ -118,7 +127,8 @@ namespace Services.Implements
                 _mapper.Map(input, entity);
                 if (await _repos.UpdateAsync(entity) != null)
                 {
-                    response.SetValue(_mapper.Map<TEntity, TDto>(entity));
+                    response.Success = true;
+
                 }
             }
             return response;

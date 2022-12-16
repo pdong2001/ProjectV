@@ -1,0 +1,93 @@
+<form
+  [formGroup]="form"
+  class="p-fluid"
+  (submit)="submit()"
+>
+  <div class="field">
+    <label for="tenSP">Sản phẩm</label>
+    <input
+      type="text"
+      name="tenSP"
+      id="tenLSP"
+      pInputText
+      formControlName="tenSP"
+    />
+  </div>
+  <div class="field">
+    <label for="uuDai">Ưu đãi</label>
+    <input
+      type="text"
+      name="uuDai"
+      id="uuDai"
+      pInputText
+      formControlName="uuDai"
+    />
+  </div>
+  <div class="grid">
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="">Loại sản phẩm</label>
+      <p-dropdown
+        [options]="dsloai"
+        optionValue="id"
+        optionLabel="tenLSP"
+        [showClear]="true"
+        [filter]="true"
+        filterBy="tenLSP"
+        formControlName="idLoaiSP"
+        placeholder="Loại sản phẩm"
+        appendTo="body"
+      ></p-dropdown>
+    </div>
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="">Thương hiệu</label>
+      <p-dropdown
+        [options]="dsthuonghieu"
+        optionValue="id"
+        optionLabel="tenTH"
+        [showClear]="true"
+        [filter]="true"
+        filterBy="tenTH"
+        formControlName="idThuongHieu"
+        placeholder="Thương hiệu"
+        appendTo="body"
+      ></p-dropdown>
+    </div>
+  </div>
+  <div class="field">
+    <label for="anhSP">Ảnh</label>
+    <p-fileUpload
+      type="text"
+      name="anh"
+      id="anh"
+      accept="image/*"
+      [showUploadButton]="false"
+      chooseLabel="Chọn"
+      cancelLabel="Hủy"
+    ></p-fileUpload>
+  </div>
+  <div class="field">
+    <label for="">Mô tả</label>
+    <p-editor
+      [style]="{ height: '400px' }"
+      formControlName="mota"
+    >
+    </p-editor>
+  </div>
+
+  <div class="flex mt-3 justify-content-end">
+    <button
+      pButton
+      pRipple
+      label="Lưu"
+      class="p-button-outlined p-button-success w-auto"
+      icon="fa-regular fa-floppy-disk"
+      type="submit"
+    ></button>
+  </div>
+</form>

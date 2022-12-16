@@ -15,7 +15,13 @@ namespace API
         {
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
             services.AddScoped<IUserService, UserService>();
-           
+            services.AddScoped<IChiTietService, ChiTietSPService>();
+            services.AddScoped<IHoaDonBanService, HoaDonBanService>();
+            services.AddScoped<IKhachHangService, KhachHangService>();
+            services.AddScoped<ILoaiSanPhamService, LoaiSanPhamService>();
+            services.AddScoped<ISanPhamService, SanPhamService>();
+            services.AddScoped<ISlideService, SlideService>();
+            services.AddScoped<IThuongHieuService, ThuongHieuService>();           
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

@@ -16,5 +16,6 @@ namespace Data.Repositories
         Task<List<TEntity>> ToListAsync();
         Task<TEntity?> UpdateAsync(TEntity input);
         Task<int> SaveChangeAsync();
+        Task<int> DeleteAsync(IEnumerable<TKey> keys);
     }
 }
