@@ -17,8 +17,9 @@ namespace Data.Models
         /// Đơn vị đo kích thước
         /// </summary>
         public string DonVi { get; set; }
-        public string SoLuong { get; set; }
-        public string MoTa { get; set; }
+        public int SoLuong { get; set; }
+        public string DVT { get; set; }
+        public string? MoTa { get; set; }
         public string AnhCT { get; set; }
         /// <summary>
         /// Thông số kỹ thuật
@@ -27,6 +28,8 @@ namespace Data.Models
 
         [ForeignKey(nameof(SanPham))]
         public int IdSanPham { get; set; }
+
+        public SanPham SanPham { get; set; }
 
     }
 }

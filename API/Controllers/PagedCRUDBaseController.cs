@@ -52,5 +52,11 @@ namespace API.Controllers
         {
             return Ok(await _service.SearchAsync(request));
         }
+
+        [HttpPost("delete")]
+        public virtual async Task<IActionResult> DeleteManyAsync([FromBody] IEnumerable<TKey> keys)
+        {
+            return Ok(await _service.DeleteAsync(keys));
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace Services.Contracts.SanPhams
         public double UuDai { get; set; }
         public int? IdLoaiSP { get; set; }
         public int? IdThuongHieu { get; set; }
+        public string? Mota { get;set; }
     }
 }

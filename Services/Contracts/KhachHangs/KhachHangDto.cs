@@ -1,4 +1,5 @@
 ﻿using Data.Models;
+using Services.Contracts.HoaDonBans;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace Services.Contracts.KhachHangs
         public string DiaChi { get; set; }
         public string SDT { get; set; }
         public string email { get; set; }
+        public new ICollection<HoaDonBanDto> DSHoaDon { get; set; }
     }
 }

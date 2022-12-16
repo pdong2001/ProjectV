@@ -93,6 +93,13 @@ namespace Data.Repositories
         {
             return await _dbSet.DeleteByKeyAsync<TEntity, TKey>(id) > 0;
         }
+        
+        public virtual Task<int> DeleteAsync(IEnumerable<TKey> keys)
+        {
+            var query = _dbSet.Where(e => keys.Contains(e.Id));
+            _dbSet.RemoveRange(query);
+            return _context.SaveChangesAsync();
+        }
 
         public virtual Task<int> SaveChangeAsync()
         {

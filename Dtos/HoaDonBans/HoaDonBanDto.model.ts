@@ -1,3 +1,5 @@
+import { KhachHangDto } from "../KhachHangs/KhachHangDto.model";
+import { ChiTietDto } from "../ChiTietSPs/ChiTietDto.model";
 import { KhachHang } from "../Data/Models/KhachHang.model";
 import { ChiTietSP } from "../Data/Models/ChiTietSP.model";
 
@@ -9,4 +11,6 @@ export class HoaDonBanDto {
 	donGia: any = 0;
 	sanPham: ChiTietSP | null = null;
 	khachHang: KhachHang | null = null;
+	sanPham: ChiTietDto | null = null;
+	khachHang: KhachHangDto | null = null;
 }

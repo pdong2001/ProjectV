@@ -23,16 +23,61 @@
       formControlName="uuDai"
     />
   </div>
+  <div class="grid">
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="">Loại sản phẩm</label>
+      <p-dropdown
+        [options]="dsloai"
+        optionValue="id"
+        optionLabel="tenLSP"
+        [showClear]="true"
+        [filter]="true"
+        filterBy="tenLSP"
+        formControlName="idLoaiSP"
+        placeholder="Loại sản phẩm"
+        appendTo="body"
+      ></p-dropdown>
+    </div>
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="">Thương hiệu</label>
+      <p-dropdown
+        [options]="dsthuonghieu"
+        optionValue="id"
+        optionLabel="tenTH"
+        [showClear]="true"
+        [filter]="true"
+        filterBy="tenTH"
+        formControlName="idThuongHieu"
+        placeholder="Thương hiệu"
+        appendTo="body"
+      ></p-dropdown>
+    </div>
+  </div>
   <div class="field">
-    <label for="anhSP">Ảnh loại</label>
+    <label for="anhSP">Ảnh</label>
     <p-fileUpload
       type="text"
-      name="anhSP"
-      id="anhSP"
-      pInputText
-      formControlName="anhSP"
-
+      name="anh"
+      id="anh"
+      accept="image/*"
+      [showUploadButton]="false"
+      chooseLabel="Chọn"
+      cancelLabel="Hủy"
     ></p-fileUpload>
+  </div>
+  <div class="field">
+    <label for="">Mô tả</label>
+    <p-editor
+      [style]="{ height: '400px' }"
+      formControlName="mota"
+    >
+    </p-editor>
   </div>
 
   <div class="flex mt-3 justify-content-end">

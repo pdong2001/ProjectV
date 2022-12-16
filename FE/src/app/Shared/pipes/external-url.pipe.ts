@@ -5,10 +5,10 @@ import { environment } from 'src/environments/environment';
   name: 'externalUrl',
 })
 export class ExternalUrlPipe implements PipeTransform {
-  transform(value: string | undefined, ...args: unknown[]): string {
+  transform(value: string | null | undefined, ...args: unknown[]): string {
     if (value) {
       if (!value.startsWith('http')) {
-        return environment.REST_API_SERVER + '/' + value;
+        return environment.REST_API_SERVER + '/api/BlobStorages/' + value;
       }
       return value;
     } else return '';

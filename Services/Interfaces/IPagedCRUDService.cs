@@ -12,9 +12,10 @@ namespace Services.Interfaces
         where TEntity : Entity<TKey>
         where TLookUp : PageLookUpDto
     {
-        public Task<ServiceResponse<TDto>> CreateAsync(TUpSert input);
-        public Task<ServiceResponse<TDto>> UpdateAsync(TKey id, TUpSert input);
+        public Task<ServiceResponse<TKey>> CreateAsync(TUpSert input);
+        public Task<ServiceResponse> UpdateAsync(TKey id, TUpSert input);
         public Task<ServiceResponse> DeleteAsync(TKey id);
+        public Task<ServiceResponse<int>> DeleteAsync(IEnumerable<TKey> keys);
         public Task<ServiceResponse<TDto>> GetAsync(TKey id);
         public Task<ServiceResponse<List<TDto>>> GetListAsync();
         public Task<ServiceResponse<PageResultDto<TDto>>> SearchAsync(TLookUp request);

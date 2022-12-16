@@ -23,10 +23,7 @@
 <p-table
   scrollHeight="calc(100vh - {{ tableOffsetTop }}px)"
   [value]="items"
-  [globalFilterFields]="[
-    'anh',
-    'tenLSP',
-  ]"
+  [globalFilterFields]="['anh', 'tenLSP']"
   dataKey="id"
   sortMode="multiple"
   [scrollable]="true"
@@ -58,7 +55,14 @@
         <div class="font-semibold">{{ item.tenLSP }}</div>
       </td>
       <td>
-        <div class="font-semibold">{{ item.anh }}</div>
+        <p-image
+          [preview]="true"
+          [src]="item.anh | externalUrl"
+          appendTo="body"
+          height="50"
+          width="150"
+          [imageStyle]="{ 'object-fit': 'contain' }"
+        ></p-image>
       </td>
 
       <td>

@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { CreateUpdateLoaiSPDto } from 'src/app/Shared/models/LoaiSPs/CreateUpdateLoaiSPDto.model';
@@ -34,10 +34,17 @@ export class DsLoaiSPComponent implements OnInit {
   constructor(
     private loaiSPService: LoaiSPService,
     private message: MessageService,
+    private confirmation: ConfirmationService,
     breadCrumb: BreadCrumbService
   ) {
     breadCrumb.setPageTitle('Quản lý loại sản phẩm');
-    this.btnItems = [{ label: 'Xóa đã chọn', icon: 'fa-regular fa-trash-can' }];
+    this.btnItems = [
+      {
+        label: 'Xóa đã chọn',
+        icon: 'fa-regular fa-trash-can',
+        command: () => this.showDelete(),
+      },
+    ];
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -48,7 +55,6 @@ export class DsLoaiSPComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
   }
-
 
   public loadData() {
     this.loading = true;
@@ -64,7 +70,6 @@ export class DsLoaiSPComponent implements OnInit {
     });
   }
 
-
   public showAdd() {
     this.selectedItem = new LoaiSPDto();
     this.showDialog = true;
@@ -75,7 +80,38 @@ export class DsLoaiSPComponent implements OnInit {
     this.showDialog = true;
   }
 
-  public showDelete() {}
+  public showDelete() {
+    this.confirmation.confirm({
+      message: `Bạn có chắc chắn muốn xóa ${this.selectedItems.length}`,
+      header: 'Xác nhận',
+      accept: () => {
+        this.loading = true;
+        this.loaiSPService
+          .deleteMany(this.selectedItems.map((item) => item.id))
+          .subscribe({
+            next: (res) => {
+              if (res.success) {
+                this.message.add({
+                  detail: `Đã xóa ${res.data} loại`,
+                  severity: 'success',
+                });
+                this.items = this.items.filter(
+                  (i) =>
+                    this.selectedItems.findIndex((d) => d.id === i.id) === -1
+                );
+                this.selectedItems = [];
+              } else {
+                this.message.add({
+                  detail: `Đã xóa ${res.data} loại`,
+                  severity: 'success',
+                });
+              }
+            },
+            complete: () => (this.loading = false),
+          });
+      },
+    });
+  }
 
   public save(data: CreateUpdateLoaiSPDto) {
     let resposne: Observable<ServiceResponse<LoaiSPDto>>;

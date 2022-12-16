@@ -70,6 +70,10 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DVT")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DonVi")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -88,15 +92,13 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MoTa")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SanPhamId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SoLuong")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SoLuong")
+                        .HasColumnType("int");
 
                     b.Property<string>("TSKT")
                         .IsRequired()
@@ -244,6 +246,9 @@ namespace Data.Migrations
                     b.Property<int?>("IdThuongHieu")
                         .HasColumnType("int");
 
+                    b.Property<string>("Mota")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TenSP")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -357,11 +362,11 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("78f5610c-77be-45a7-be07-effb2bab65ff"),
-                            CreatedAt = new DateTime(2022, 11, 28, 15, 27, 23, 82, DateTimeKind.Local).AddTicks(9970),
+                            CreatedAt = new DateTime(2022, 12, 7, 7, 30, 0, 254, DateTimeKind.Local).AddTicks(911),
                             CreatedBy = "Seeding",
                             Email = "admin@test.tt",
                             FullName = "Quản trị viên",
-                            Password = "$2a$11$UB4Ubda7jTfLA5Pms.ofruDq6F.zTn/GdJZE9Qe66KuNWXwGWvsve",
+                            Password = "$2a$11$5pznNo75yg5Msi882ZdTN.65IwWZys9V//epx2weJ35znlTFS.Gme",
                             PhoneNumber = "0987654321",
                             Roles = "_ad",
                             UserName = "admin"
@@ -397,7 +402,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Models.SanPham", b =>
                 {
                     b.HasOne("Data.Models.LoaiSP", "LoaiSP")
-                        .WithMany("DSSanPham")
+                        .WithMany()
                         .HasForeignKey("IdLoaiSP");
 
                     b.HasOne("Data.Models.ThuongHieu", "ThuongHieu")
@@ -412,11 +417,6 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Models.KhachHang", b =>
                 {
                     b.Navigation("DSHoaDon");
-                });
-
-            modelBuilder.Entity("Data.Models.LoaiSP", b =>
-                {
-                    b.Navigation("DSSanPham");
                 });
 
             modelBuilder.Entity("Data.Models.SanPham", b =>

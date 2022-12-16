@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Data.Models;
 using Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 using Services.Contracts.ChiTietSPs;
 using Services.Contracts.SanPhams;
@@ -17,6 +18,25 @@ namespace Services.Implements
     {
         public ChiTietSPService(IRepository<int, ChiTietSP> repos, IMapper mapper) : base(repos, mapper)
         {
+        }
+
+        
+
+        protected override IQueryable<ChiTietSP> BeforeSearch(IQueryable<ChiTietSP> query, ChiTietSPLookUpDto request)
+        {
+            return base.BeforeSearch(query, request);
+        }
+
+        public override IQueryable<ChiTietSP> BeforeQuery(IQueryable<ChiTietSP> query)
+        {
+            query = query.AsNoTracking().Include(p => p.SanPham);
+            return base.BeforeQuery(query);
+        }
+
+        public override IQueryable<ChiTietSP> BeforeGet(int id, IQueryable<ChiTietSP> query)
+        {
+            query = query.AsNoTracking().Include(p => p.SanPham);
+            return base.BeforeGet(id, query);
         }
     }
 }

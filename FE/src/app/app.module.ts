@@ -14,14 +14,14 @@ import { ApiInterceptor } from './Shared/interceptors/api.interceptor';
 import { ExternalUrlPipe } from './Shared/pipes/external-url.pipe';
 
 @NgModule({
-  declarations: [AppComponent, PermissionDirective, ExternalUrlPipe],
+  declarations: [AppComponent, PermissionDirective],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ToastModule,
     ConfirmDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },

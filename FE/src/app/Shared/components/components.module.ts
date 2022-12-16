@@ -19,7 +19,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserComponent } from './user/user.component';
 import { SanphamComponent } from './sanpham/sanpham.component';
-
+import { EditorModule } from 'primeng/editor';
+import { ChiTietSPComponent } from './chi-tiet-sp/chi-tiet-sp.component';
+import { KhachHangComponent } from './khach-hang/khach-hang.component';
+import { ThuongHieuComponent } from './thuong-hieu/thuong-hieu.component';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -30,6 +33,9 @@ import { SanphamComponent } from './sanpham/sanpham.component';
     UserComponent,
     LoaiSPComponent,
     SanphamComponent,
+    ChiTietSPComponent,
+    KhachHangComponent,
+    ThuongHieuComponent,
   ],
   imports: [
     CommonModule,
@@ -44,12 +50,15 @@ import { SanphamComponent } from './sanpham/sanpham.component';
     FormsModule,
     ReactiveFormsModule,
     DropdownModule,
-    FileUploadModule
+    FileUploadModule,
+    EditorModule,
   ],
   exports: [
     LayoutComponent,
     LoaiSPComponent,
-    SanphamComponent
+    SanphamComponent,
+    ChiTietSPComponent,
+    ThuongHieuComponent
   ],
 })
 export class ComponentsModule {}

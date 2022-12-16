@@ -1,4 +1,4 @@
-import { HoaDonBan } from "../Data/Models/HoaDonBan.model";
+import { HoaDonBanDto } from "../HoaDonBans/HoaDonBanDto.model";
 
 export class KhachHangDto {
 	id: number = 0;
@@ -7,5 +7,5 @@ export class KhachHangDto {
 	email: string | null = "";
 	diaChi: string | null = "";
 	ngaySinh!: Date;
-	dsHoaDon: HoaDonBan[] | null = [];
+	dsHoaDon: HoaDonBanDto[] | null = [];
 }

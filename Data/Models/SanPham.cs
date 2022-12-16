@@ -13,6 +13,8 @@ namespace Data.Models
         [ForeignKey(nameof(LoaiSP))]
         public int? IdLoaiSP { get; set; }
         public LoaiSP LoaiSP { get; set; }
+        
+        public string? Mota { get;set; }
 
         [ForeignKey(nameof(ThuongHieu))]
         public int? IdThuongHieu { get; set; }

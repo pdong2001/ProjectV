@@ -36,7 +36,7 @@ export class LoaiSPComponent implements OnInit {
   public form: FormGroup;
   constructor(private blobService: BlobService) {
     this.form = new FormGroup({
-      anh: new FormControl('', [Validators.required]),
+      anh: new FormControl(''),
       tenLSP: new FormControl('', [Validators.required]),
     });
   }
@@ -55,6 +55,7 @@ export class LoaiSPComponent implements OnInit {
           },
           complete: () => {
             this.onSubmit.emit(payload);
+            this.fileUpload.clear();
           },
         });
       } else this.onSubmit.emit(payload);

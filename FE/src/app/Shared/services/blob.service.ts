@@ -24,7 +24,7 @@ export class BlobService {
       const file = files[index];
       data.append(file.name, file, file.name);
     }
-    const url = 'api/blobStorage';
+    const url = 'api/blobStorages';
     return this.http.post<ServiceResponse<string[]>>(url, data);
   }
 }
