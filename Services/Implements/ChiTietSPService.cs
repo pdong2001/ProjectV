@@ -20,10 +20,14 @@ namespace Services.Implements
         {
         }
 
-        
+
 
         protected override IQueryable<ChiTietSP> BeforeSearch(IQueryable<ChiTietSP> query, ChiTietSPLookUpDto request)
         {
+            if (request.IdSanPham.HasValue)
+            {
+                query = query.Where(e => e.IdSanPham == request.IdSanPham.Value);
+            }
             return base.BeforeSearch(query, request);
         }
 

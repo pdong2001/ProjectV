@@ -1,6 +1,6 @@
 export interface CreateUpdateChiTietDto {
   gia?: number;
-  idSanPham?: number;
+  idSanPham: number;
   code?: string;
   moTa?: string;
   tskt?: string;

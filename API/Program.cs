@@ -1,37 +1,26 @@
 using API;
 using API.Filters;
 using Data;
-using Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OfficeOpenXml;
-using Services.Implements;
-using Services.Interfaces;
-using System.ComponentModel;
 using System.Text;
 using System.Text.Json.Serialization;
-using System.Web.Http;
-using Utils.Constants;
-using Utils.Exceptions;
+using Utils.Extensions;
 using static System.Net.Mime.MediaTypeNames;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers(o =>
 {
     o.Filters.Add<HttpResponseExceptionFilter>();
 })
-    .AddJsonOptions(options => {
+    .AddJsonOptions(options =>
+    {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     })
     .ConfigureApiBehaviorOptions(options =>
@@ -86,9 +75,11 @@ builder.Services.AddDbContext<DataContext>(o =>
     {
         a.MigrationsAssembly(typeof(DataContext).Assembly.GetName().Name);
     });
-});
+}, ServiceLifetime.Transient);
 
 builder.Services.AddServices();
+
+builder.Services.Validate();
 
 builder.Services.AddAutoMapper();
 

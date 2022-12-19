@@ -22,6 +22,7 @@ namespace API
             services.AddScoped<ISanPhamService, SanPhamService>();
             services.AddScoped<ISlideService, SlideService>();
             services.AddScoped<IThuongHieuService, ThuongHieuService>();           
+            services.AddScoped<IDonNhapService, DonNhapService>();           
         }
 
         public static void AddAutoMapper(this IServiceCollection services)

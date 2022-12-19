@@ -56,6 +56,7 @@
       </td>
       <td>
         <p-image
+          *ngIf="item.anh"
           [preview]="true"
           [src]="item.anh | externalUrl"
           appendTo="body"
@@ -63,6 +64,10 @@
           width="150"
           [imageStyle]="{ 'object-fit': 'contain' }"
         ></p-image>
+        <div
+          class="font-semibold"
+          *ngIf="!item.anh"
+        >Chưa có ảnh</div>
       </td>
 
       <td>

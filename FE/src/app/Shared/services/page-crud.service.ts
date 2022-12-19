@@ -10,9 +10,14 @@ export class PagedCRUDService<TKey, TDto, TUpSert, TLookUp> {
     this.controller = controller;
   }
 
-  public deleteMany(request: number[]): Observable<ServiceResponse<number>> {
+  public deleteMany(request: TKey[]): Observable<ServiceResponse<number>> {
     const url = `${this.prefix}${this.controller}/delete`;
     return this.http.post(url, request);
+  }
+
+  public delete(id: TKey) {
+    const url = `${this.prefix}${this.controller}/${id}`;
+    return this.http.delete<ServiceResponse<never>>(url);
   }
 
   public get(id: TKey): Observable<ServiceResponse<TDto>> {

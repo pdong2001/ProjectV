@@ -3,23 +3,11 @@
   class="p-fluid"
   (submit)="submit()"
 >
-  <div class="field">
-    <label for="">Sản phẩm</label>
-    <p-dropdown
-      [options]="dssp"
-      optionValue="id"
-      optionLabel="tenSP"
-      [showClear]="true"
-      [filter]="true"
-      filterBy="tenSP"
-      formControlName="idSanPham"
-      placeholder="Chọn sản phẩm muốn nhập chi tiết"
-      emptyMessage="Không có sản phẩm"
-      emptyFilterMessage="Không tìm thấy sản phẩm phù hợp"
-      appendTo="body"
-    ></p-dropdown>
-  </div>
-
+  <input
+    type="submit"
+    id="ctsp_form_submit"
+    class="hidden"
+  />
   <div class="grid">
     <div
       class="field col"
@@ -56,26 +44,6 @@
           pInputText
           formControlName="mauSac"
         />
-        <input
-          id="color"
-          type="color"
-          style="
-            width: 0px;
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
-            margin-top: auto;
-          "
-          #colorPicker
-        />
-        <label
-          for="color"
-          pButton
-          pRipple
-          icon="fa-solid fa-palette"
-          class="p-inputgroup-addon"
-          [style]="{ 'background-color': colorPicker.value }"
-        ></label>
       </div>
     </div>
   </div>
@@ -103,7 +71,7 @@
       </div>
     </div>
     <div
-      class="field col"
+      class="field col hidden"
       style="min-width: 200px"
     >
       <label for="soLuong">Số lượng</label>
@@ -155,16 +123,5 @@
       formControlName="moTa"
     >
     </p-editor>
-  </div>
-
-  <div class="flex mt-3 justify-content-end">
-    <button
-      pButton
-      pRipple
-      label="Lưu"
-      class="p-button-outlined p-button-success w-auto"
-      icon="fa-regular fa-floppy-disk"
-      type="submit"
-    ></button>
   </div>
 </form>

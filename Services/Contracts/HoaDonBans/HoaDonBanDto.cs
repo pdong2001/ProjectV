@@ -13,6 +13,5 @@ namespace Services.Contracts.HoaDonBans
     {
         public new KhachHangDto KhachHang { get; set; }
         public new ChiTietDto SanPham { get; set; }
-
     }
 }

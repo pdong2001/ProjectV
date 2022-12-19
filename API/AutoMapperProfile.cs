@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Data.Models;
 using Services.Contracts.ChiTietSPs;
+using Services.Contracts.DonNhaps;
 using Services.Contracts.HoaDonBans;
 using Services.Contracts.KhachHangs;
 using Services.Contracts.LoaiSPs;
@@ -21,20 +22,22 @@ namespace API
             CreateMap<CreateUpdateUserDto, User>(MemberList.None)
                 .ForMember(u => u.Roles, o => o.MapFrom(s => s.Roles == null ? null : String.Join(',', s.Roles)));
 
-            CreateMap<LoaiSP, LoaiSPDto>();    
+            CreateMap<LoaiSP, LoaiSPDto>();
             CreateMap<CreateUpdateLoaiSPDto, LoaiSP>();
-            CreateMap<ChiTietSP, ChiTietDto>();    
+            CreateMap<ChiTietSP, ChiTietDto>();
             CreateMap<CreateUpdateChiTietDto, ChiTietSP>();
-            CreateMap<HoaDonBan, HoaDonBanDto>();    
+            CreateMap<HoaDonBan, HoaDonBanDto>();
             CreateMap<CreateUpdateHoaDonBanDto, HoaDonBan>();
-            CreateMap<KhachHang, KhachHangDto>();    
+            CreateMap<KhachHang, KhachHangDto>();
             CreateMap<CreateUpdateKhachHangDto, KhachHang>();
-            CreateMap<SanPham, SanPhamDto>();    
+            CreateMap<SanPham, SanPhamDto>();
             CreateMap<CreateUpdateSanPhamDto, SanPham>();
-            CreateMap<Slide, SlideDto>();    
+            CreateMap<Slide, SlideDto>();
             CreateMap<CreateUpdateSlideDto, Slide>();
-            CreateMap<ThuongHieu, ThuongHieuDto>();    
+            CreateMap<ThuongHieu, ThuongHieuDto>();
             CreateMap<CreateUpdateThuongHieuDto, ThuongHieu>();
+            CreateMap<CreateDonNhapDto, DonNhap>();
+            CreateMap<DonNhap, DonNhapDto>();
 
         }
     }

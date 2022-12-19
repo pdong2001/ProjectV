@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { Roles } from '../Shared/constants/constants.module';
 import { RouteMaps } from '../Shared/constants/routes.constant';
 import { AuthGuard } from '../Shared/guards/auth.guard';
-import { DSChiTietSPComponent } from './ds-chi-tiet-sp/ds-chi-tiet-sp.component';
 import { DsLoaiSPComponent } from './ds-loai-sp/ds-loai-sp.component';
 import { DSKhachHangComponent } from './dskhach-hang/dskhach-hang.component';
 import { DSSanPhamComponent } from './dssan-pham/dssan-pham.component';
 import { DSThuongHieuComponent } from './dsthuong-hieu/dsthuong-hieu.component';
+import { ImportListComponent } from './import-list/import-list.component';
 import { MainComponent } from './main.component';
+import { OrderListComponent } from './order-list/order-list.component';
 
 const routes: Routes = [
   {
@@ -32,13 +33,6 @@ const routes: Routes = [
         },
       },
       {
-        path: RouteMaps.productDetails,
-        component: DSChiTietSPComponent,
-        data: {
-          Roles: [Roles.Admin],
-        },
-      },
-      {
         path: RouteMaps.customers,
         component: DSKhachHangComponent,
         data: {
@@ -48,6 +42,20 @@ const routes: Routes = [
       {
         path: RouteMaps.brands,
         component: DSThuongHieuComponent,
+        data: {
+          Roles: [Roles.Admin],
+        },
+      },
+      {
+        path: RouteMaps.imports,
+        component: ImportListComponent,
+        data: {
+          Roles: [Roles.Admin],
+        },
+      },
+      {
+        path: RouteMaps.orders,
+        component: OrderListComponent,
         data: {
           Roles: [Roles.Admin],
         },

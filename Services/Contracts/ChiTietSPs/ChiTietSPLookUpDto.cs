@@ -9,6 +9,5 @@ namespace Services.Contracts.ChiTietSPs
     public class ChiTietSPLookUpDto : PageLookUpDto
     {
         public int? IdSanPham { get; set; }
-
     }
 }

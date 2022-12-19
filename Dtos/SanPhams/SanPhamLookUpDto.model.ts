@@ -5,6 +5,7 @@ export class SanPhamLookUpDto {
 	sort: string | null = "";
 	search: string | null = "";
 	columns: string | null = "";
+	hasDetailOnly: boolean = false;
 	idLoaiSP: number | null = null;
 	idThuongHieu: number | null = null;
 }

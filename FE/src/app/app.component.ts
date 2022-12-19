@@ -10,5 +10,11 @@ export class AppComponent {
   title = 'CMS | Thích Dân';
   constructor(primeConfig: PrimeNGConfig) {
     primeConfig.ripple = true;
+    primeConfig.setTranslation({
+      accept: 'Chấp nhận',
+      reject: 'Hủy',
+      emptyFilterMessage: 'Không tìm thấy thông tin phù hợp',
+      emptyMessage: 'Không có thông tin',
+    });
   }
 }

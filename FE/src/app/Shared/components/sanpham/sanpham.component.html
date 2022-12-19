@@ -3,6 +3,11 @@
   class="p-fluid"
   (submit)="submit()"
 >
+  <input
+    type="submit"
+    class="hidden"
+    id="formSubmit"
+  />
   <div class="field">
     <label for="tenSP">Sản phẩm</label>
     <input
@@ -78,16 +83,5 @@
       formControlName="mota"
     >
     </p-editor>
-  </div>
-
-  <div class="flex mt-3 justify-content-end">
-    <button
-      pButton
-      pRipple
-      label="Lưu"
-      class="p-button-outlined p-button-success w-auto"
-      icon="fa-regular fa-floppy-disk"
-      type="submit"
-    ></button>
   </div>
 </form>

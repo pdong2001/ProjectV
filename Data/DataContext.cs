@@ -1,4 +1,5 @@
 ﻿using Data.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using System.IO;
@@ -8,8 +9,12 @@ namespace Data
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        private readonly IHttpContextAccessor _contextAccessor;
+
+        public DataContext(DbContextOptions<DataContext> options, IHttpContextAccessor contextAccessor) : base(options)
         {
+            SavingChanges += DataContext_SavingChanges;
+            this._contextAccessor = contextAccessor;
         }
 
         public DbSet<Blob> Blobs { get; set; }
@@ -26,9 +31,25 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.UserName).IsUnique();
+            });
+
+            modelBuilder.Entity<SanPham>(entity =>
+            {
+                entity.HasMany(e => e.ChiTietSP)
+                .WithOne(e => e.SanPham)
+                .HasForeignKey(e => e.IdSanPham)
+                .OnDelete(DeleteBehavior.ClientCascade);
+            });
+
+            modelBuilder.Entity<DonNhap>(entity =>
+            {
+                entity.HasOne(e => e.SanPham)
+                .WithMany(e => e.DSDonNhap)
+                .HasForeignKey(e => e.IdSanPham);
             });
 
             modelBuilder.Entity<User>()
@@ -45,10 +66,40 @@ namespace Data
                 CreatedBy = "Seeding"
             });
 
-
-
-
             base.OnModelCreating(modelBuilder);
+        }
+
+        private void DataContext_SavingChanges(object? sender, SavingChangesEventArgs e)
+        {
+            foreach (var item in ChangeTracker.Entries().
+                Where(e => e.State == EntityState.Added ||
+                e.State == EntityState.Modified ||
+                e.State == EntityState.Deleted))
+            {
+                if (item.Entity is IAuditedEntity entity)
+                {
+                    if (item.State == EntityState.Added)
+                    {
+                        entity.CreatedAt = DateTime.Now;
+                        entity.CreatedBy = _contextAccessor.HttpContext.User.Identity?.Name ?? "Vô danh";
+                    }
+                    else if (item.State == EntityState.Modified)
+                    {
+                        entity.UpdatedAt = DateTime.Now;
+                        entity.UpdatedBy = _contextAccessor.HttpContext.User.Identity?.Name ?? "Vô danh";
+                    }
+                    else if (item.Entity is IFullAuditedEntity fullAudited)
+                    {
+                        if (fullAudited.IsDeleted == false)
+                        {
+                            fullAudited.IsDeleted = true;
+                            fullAudited.DeletedAt = DateTime.Now;
+                            fullAudited.DeletedBy = _contextAccessor.HttpContext.User.Identity?.Name ?? "Vô danh";
+                            item.State = EntityState.Modified;
+                        }
+                    }
+                }
+            }
         }
     }
 }

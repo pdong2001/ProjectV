@@ -1,10 +1,12 @@
 <p-toolbar>
   <ng-template pTemplate="left">
-    <p-splitButton
-      label="Thêm mới"
-      [model]="btnItems"
-      (onClick)="showAdd()"
-    ></p-splitButton>
+    <div class="grid">
+      <p-button
+        label="Thêm mới"
+        (onClick)="showAdd()"
+        class="col-fixed"
+      ></p-button>
+    </div>
   </ng-template>
   <ng-template pTemplate="right">
     <span class="p-input-icon-left ml-auto">
@@ -21,7 +23,7 @@
 </p-toolbar>
 <small>Giữ phím Ctrl hoặc Meta để chọn nhiều cột</small>
 <p-table
-scrollHeight="calc(100vh - {{ tableOffsetTop }}px)"
+  scrollHeight="calc(100vh - {{ tableOffsetTop }}px)"
   [value]="items"
   [globalFilterFields]="[
     'anhCT',
@@ -39,13 +41,9 @@ scrollHeight="calc(100vh - {{ tableOffsetTop }}px)"
   sortMode="multiple"
   [scrollable]="true"
   [(selection)]="selectedItems"
-  [lazy]="true"
-  (onLazyLoad)="loadChiTietSP($event)"
   [paginator]="true"
   [rows]="10"
   [rowsPerPageOptions]="[10, 15, 30]"
-  [totalRecords]="totalRecords"
-
 >
   <ng-template pTemplate="header">
     <tr class="white-space-nowrap">
@@ -56,13 +54,13 @@ scrollHeight="calc(100vh - {{ tableOffsetTop }}px)"
         Tên sản phẩm <p-sortIcon field="idSanPham"></p-sortIcon>
       </th>
       <th pSortableColumn="code">
-        Mã CODE <p-sortIcon field="code"></p-sortIcon>
+        Mã SKU <p-sortIcon field="code"></p-sortIcon>
       </th>
       <th pSortableColumn="mauSac">
         Màu sắc <p-sortIcon field="mauSac"></p-sortIcon>
       </th>
       <th pSortableColumn="gia">
-        Giá bán <p-sortIcon field="gia"></p-sortIcon>
+        Giá nhập <p-sortIcon field="gia"></p-sortIcon>
       </th>
       <th pSortableColumn="anhCT">
         Hình ảnh <p-sortIcon field="anhCT"></p-sortIcon>
@@ -99,6 +97,7 @@ scrollHeight="calc(100vh - {{ tableOffsetTop }}px)"
       </td>
       <td>
         <p-image
+          *ngIf="item.anhCT"
           [preview]="true"
           [src]="item.anhCT | externalUrl"
           appendTo="body"
@@ -106,6 +105,12 @@ scrollHeight="calc(100vh - {{ tableOffsetTop }}px)"
           width="150"
           [imageStyle]="{ 'object-fit': 'contain' }"
         ></p-image>
+        <div
+          class="font-semibold"
+          *ngIf="!item.anhCT"
+        >
+          Chưa có ảnh
+        </div>
       </td>
       <td>
         <div class="font-semibold">{{ item.kichThuoc }} {{ item.donVi }}</div>
@@ -122,13 +127,20 @@ scrollHeight="calc(100vh - {{ tableOffsetTop }}px)"
           class="p-button-sm p-button-text p-button-info p-button-rounded"
           (click)="showEdit(item)"
         ></button>
+        <button
+          pButton
+          pRipple
+          icon="pi pi-trash"
+          class="p-button-sm p-button-text p-button-danger p-button-rounded"
+          (click)="showDelete(item)"
+        ></button>
       </td>
     </tr>
   </ng-template>
 </p-table>
 
 <p-dialog
-  [style]="{ width: '50vw' }"
+  [style]="{ width: '75vw' }"
   [resizable]="true"
   [maximizable]="true"
   appendTo="body"
@@ -137,10 +149,21 @@ scrollHeight="calc(100vh - {{ tableOffsetTop }}px)"
   [(visible)]="showDialog"
   [modal]="true"
 >
-  <app-chi-tiet-sp
-    *ngIf="selectedItem"
+  <app-don-nhap
     [value]="selectedItem"
-    [dssp]="dsSanPham"
     (validSubmit)="save($event)"
-  ></app-chi-tiet-sp>
+    [sanphams]="dsSanPham"
+  ></app-don-nhap>
+  <ng-template pTemplate="footer">
+    <div class="flex mt-3 justify-content-end">
+      <label
+        pButton
+        pRipple
+        label="Lưu"
+        class="p-button-outlined p-button-success w-auto"
+        icon="fa-regular fa-floppy-disk"
+        for="dn_form_submit"
+      ></label>
+    </div>
+  </ng-template>
 </p-dialog>

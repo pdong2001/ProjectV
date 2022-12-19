@@ -7,16 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Enums\**" />
     <Compile Remove="Filters\**" />
-    <EmbeddedResource Remove="Enums\**" />
     <EmbeddedResource Remove="Filters\**" />
-    <None Remove="Enums\**" />
     <None Remove="Filters\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

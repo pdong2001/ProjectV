@@ -4,4 +4,6 @@ export const RouteMaps = {
   productDetails: 'ds-chi-tiet-sp',
   customers: 'ds-khach-hang',
   brands: 'ds-thuong-hieu',
+  imports: 'don-nhap',
+  orders: 'don-ban',
 };

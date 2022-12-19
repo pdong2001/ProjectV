@@ -1,0 +1,137 @@
+<form
+  [formGroup]="form"
+  class="p-fluid"
+  (submit)="submit()"
+>
+  <input
+    type="submit"
+    id="dn_form_submit"
+    class="hidden"
+  />
+  <div class="field">
+    <label for="">Sản phẩm</label>
+    <p-dropdown
+      [options]="sanphams"
+      optionLabel="tenSP"
+      optionValue="id"
+      formControlName="idSanPham"
+    >
+    </p-dropdown>
+  </div>
+  <div class="grid">
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="code">Mã SKU</label>
+      <input
+        type="text"
+        name="code"
+        id="code"
+        pInputText
+        formControlName="code"
+      />
+    </div>
+    <div class="field col">
+      <label for="gia">Giá nhập</label>
+      <p-inputNumber
+        type="text"
+        aria-label="gia"
+        id="gia"
+        formControlName="gia"
+      ></p-inputNumber>
+    </div>
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="mauSac">Màu sắc</label>
+      <div class="p-inputgroup">
+        <input
+          type="text"
+          aria-label="mauSac"
+          id="mauSac"
+          pInputText
+          formControlName="mauSac"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="grid">
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="kichThuoc">Kích thước</label>
+      <div class="p-inputgroup">
+        <p-inputNumber
+          type="text"
+          aria-label="kichThuoc"
+          id="kichThuoc"
+          formControlName="kichThuoc"
+        ></p-inputNumber>
+        <input
+          class="p-inputgroup-addon"
+          type="text"
+          aria-label="donVi"
+          id="donVi"
+          pInputText
+          formControlName="donVi"
+        />
+      </div>
+    </div>
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="soLuong">Số lượng</label>
+      <div class="p-inputgroup"></div>
+      <div class="p-inputgroup">
+        <p-inputNumber
+          type="text"
+          aria-label="soLuong"
+          id="soLuong"
+          formControlName="soLuong"
+        ></p-inputNumber>
+        <input
+          class="p-inputgroup-addon"
+          type="text"
+          aria-label="dvt"
+          id="dvt"
+          pInputText
+          formControlName="dvt"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label for="tskt">Thông số kỹ thuật</label>
+    <input
+      type="text"
+      aria-label="tskt"
+      id="tskt"
+      pInputText
+      formControlName="tskt"
+    />
+  </div>
+  <div class="field">
+    <label for="anhCT">Ảnh</label>
+    <p-fileUpload
+      type="text"
+      aria-label="anhCT"
+      id="anhCT"
+      accept="image/*"
+      [showUploadButton]="false"
+      chooseLabel="Chọn"
+      cancelLabel="Hủy"
+    ></p-fileUpload>
+  </div>
+  <div class="field">
+    <label for="">Mô tả</label>
+    <p-editor
+      [style]="{ height: '400px' }"
+      formControlName="moTa"
+    >
+    </p-editor>
+  </div>
+</form>

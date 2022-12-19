@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Data.Models;
 using Data.Repositories;
+using Services.Contracts;
 using Services.Contracts.HoaDonBans;
 using Services.Interfaces;
 using System;
@@ -15,6 +16,11 @@ namespace Services.Implements
     {
         public HoaDonBanService(IRepository<int, HoaDonBan> repos, IMapper mapper) : base(repos, mapper)
         {
+        }
+
+        public override Task<ServiceResponse> UpdateAsync(int id, CreateUpdateHoaDonBanDto input)
+        {
+            return base.UpdateAsync(id, input);
         }
     }
 }

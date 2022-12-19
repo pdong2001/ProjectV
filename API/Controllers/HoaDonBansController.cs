@@ -14,5 +14,12 @@ namespace API.Controllers
         public HoaDonBansController(IHoaDonBanService service) : base(service)
         {
         }
+
+        [NonAction]
+        public override Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] CreateUpdateHoaDonBanDto request)
+        {
+            return base.UpdateAsync(id, request);
+        }
+
     }
 }

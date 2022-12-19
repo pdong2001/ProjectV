@@ -103,7 +103,7 @@
 </p-table>
 
 <p-dialog
-  [style]="{ width: '50vw' }"
+  [style]="{ width: '75vw', height: '75vh' }"
   [resizable]="true"
   [maximizable]="true"
   appendTo="body"
@@ -112,11 +112,38 @@
   [(visible)]="showDialog"
   [modal]="true"
 >
-  <app-sanpham
-    [dsloai]="dsLoai"
-    [dsthuonghieu]="dsThuongHieu"
-    *ngIf="selectedItem"
-    [value]="selectedItem"
-    (validSubmit)="save($event)"
-  ></app-sanpham>
+  <p-tabView [(activeIndex)]="tabViewIndex">
+    <p-tabPanel header="Thông tin sản phẩm">
+      <app-sanpham
+        [dsloai]="dsLoai"
+        [dsthuonghieu]="dsThuongHieu"
+        *ngIf="selectedItem"
+        [value]="selectedItem"
+        (validSubmit)="save($event)"
+      ></app-sanpham>
+    </p-tabPanel>
+    <p-tabPanel
+      *ngIf="selectedItem?.id"
+      header="Chi tiết sản phẩm"
+    >
+      <app-ds-chi-tiet-sp [sanpham]="selectedItem"> </app-ds-chi-tiet-sp>
+    </p-tabPanel>
+  </p-tabView>
+
+  <ng-template pTemplate="footer">
+    <div
+      *ngIf="tabViewIndex === 0"
+      class="flex mt-3 justify-content-end"
+    >
+      <label
+        for="formSubmit"
+        pButton
+        pRipple
+        label="Lưu"
+        class="p-button-outlined p-button-success w-auto"
+        icon="fa-regular fa-floppy-disk"
+        type="submit"
+      ></label>
+    </div>
+  </ng-template>
 </p-dialog>

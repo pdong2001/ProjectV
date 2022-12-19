@@ -39,27 +39,32 @@
               >Sản phẩm</a
             >
           </li>
-          <li
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
+        </ul>
+      </li>
+      <li class="nav-item dropdown">
+        <a
+          href="#"
+          class="nav-link has-dropdown"
+          data-toggle="dropdown"
+          ><i class="ion fa-solid fa-money-bill-transfer"></i>
+          <span>Quản lý nhập/xuất</span></a
+        >
+        <ul class="dropdown-menu">
+          <li routerLinkActive="active">
             <a
               class="nav-link"
-              routerLink="/ds-chi-tiet-sp"
-              >Chi tiết sản phẩm</a
+              routerLink="/don-ban"
+              >Hóa đơn bán</a
+            >
+          </li>
+          <li routerLinkActive="active">
+            <a
+              class="nav-link"
+              routerLink="/don-nhap"
+              >Hóa đơn nhập</a
             >
           </li>
         </ul>
-      </li>
-      <li
-        routerLinkActive="active"
-        class="nav-item"
-      >
-        <a
-          class="nav-link"
-          routerLink="/hoa-don-ban"
-          ><i class="ion fa-solid fa-file-invoice-dollar"></i> <span>Hóa đơn bán</span></a
-        >
       </li>
       <li
         routerLinkActive="active"
@@ -83,8 +88,7 @@
         <a
           class="nav-link"
           routerLink="/hinh-anh"
-          ><i class="ion fa-regular fa-image"></i>
-          <span>Danh sách ảnh</span></a
+          ><i class="ion fa-regular fa-image"></i> <span>Danh sách ảnh</span></a
         >
       </li>
       <li class="menu-header">Thống kê</li>

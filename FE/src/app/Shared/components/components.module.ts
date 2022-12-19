@@ -5,24 +5,35 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { TagModule } from 'primeng/tag';
+import { EditorModule } from 'primeng/editor';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ImageModule } from 'primeng/image';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TableModule } from 'primeng/table';
-import { FileUploadModule } from 'primeng/fileupload';
+import { TabViewModule } from 'primeng/tabview';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
+import { ChiTietSPComponent } from './chi-tiet-sp/chi-tiet-sp.component';
+import { DSChiTietSPComponent } from './ds-chi-tiet-sp/ds-chi-tiet-sp.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { KhachHangComponent } from './khach-hang/khach-hang.component';
 import { LayoutComponent } from './layout/layout.component';
 import { LoaiSPComponent } from './loai-sp/loai-sp.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { UserComponent } from './user/user.component';
 import { SanphamComponent } from './sanpham/sanpham.component';
-import { EditorModule } from 'primeng/editor';
-import { ChiTietSPComponent } from './chi-tiet-sp/chi-tiet-sp.component';
-import { KhachHangComponent } from './khach-hang/khach-hang.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 import { ThuongHieuComponent } from './thuong-hieu/thuong-hieu.component';
+import { UserComponent } from './user/user.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { DialogModule } from 'primeng/dialog';
+import { BadgeModule } from 'primeng/badge';
+import { DonNhapComponent } from './don-nhap/don-nhap.component';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -36,6 +47,8 @@ import { ThuongHieuComponent } from './thuong-hieu/thuong-hieu.component';
     ChiTietSPComponent,
     KhachHangComponent,
     ThuongHieuComponent,
+    DSChiTietSPComponent,
+    DonNhapComponent,
   ],
   imports: [
     CommonModule,
@@ -52,13 +65,25 @@ import { ThuongHieuComponent } from './thuong-hieu/thuong-hieu.component';
     DropdownModule,
     FileUploadModule,
     EditorModule,
+    ImageModule,
+    TabViewModule,
+    ToggleButtonModule,
+    CalendarModule,
+    ToolbarModule,
+    TooltipModule,
+    TagModule,
+    PipesModule,
+    DialogModule,
+    BadgeModule,
   ],
   exports: [
     LayoutComponent,
     LoaiSPComponent,
     SanphamComponent,
     ChiTietSPComponent,
-    ThuongHieuComponent
+    ThuongHieuComponent,
+    DSChiTietSPComponent,
+    DonNhapComponent,
   ],
 })
 export class ComponentsModule {}

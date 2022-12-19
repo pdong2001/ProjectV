@@ -31,6 +31,7 @@ export class ApiInterceptor implements HttpInterceptor {
   static processingUnauthorized: boolean = false;
   static router: Router;
   handleError(error: HttpErrorResponse) {
+    console.log(error);
     switch (error.status) {
       case 500:
         if (new Date() >= ApiInterceptor.nextMessageAt) {

@@ -4,6 +4,7 @@ import { ChiTietDto } from "../ChiTietSPs/ChiTietDto.model";
 import { LoaiSP } from "../Data/Models/LoaiSP.model";
 import { ThuongHieu } from "../Data/Models/ThuongHieu.model";
 import { ChiTietSP } from "../Data/Models/ChiTietSP.model";
+import { DonNhap } from "../Data/Models/DonNhap.model";
 
 export class SanPhamDto {
 	id: number = 0;
@@ -18,5 +19,6 @@ export class SanPhamDto {
 	idThuongHieu: number | null = null;
 	chiTietSP: ChiTietDto[] | null = [];
 	chiTietSP: ChiTietSP[] | null = [];
+	dsDonNhap: DonNhap[] | null = [];
 	thuongHieu: ThuongHieuDto | null = null;
 }

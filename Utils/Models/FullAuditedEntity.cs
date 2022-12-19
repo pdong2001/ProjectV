@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace Data.Models
 {
-    public class FullAuditedEntity<TKey> : AuditedEntity<TKey>
+    public class FullAuditedEntity<TKey> : AuditedEntity<TKey>, IFullAuditedEntity
     {
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
         public DateTime? DeletedAt { get; set; }
         [MaxLength(50)]
+        public string? DeletedBy { get; set; }
+    }
+
+    public interface IFullAuditedEntity
+    {
+        public bool IsDeleted { get; set; }
+        public DateTime? DeletedAt { get; set; }
         public string? DeletedBy { get; set; }
     }
 }

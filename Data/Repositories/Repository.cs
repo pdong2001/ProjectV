@@ -15,12 +15,10 @@ namespace Data.Repositories
         where TEntity : Entity<TKey>
     {
         private readonly DataContext _context;
-        private readonly IHttpContextAccessor _contextAccesstor;
         private readonly DbSet<TEntity> _dbSet;
-        public Repository(DataContext context, IHttpContextAccessor contextAccesstor)
+        public Repository(DataContext context)
         {
             this._context = context;
-            this._contextAccesstor = contextAccesstor;
             _dbSet = context.Set<TEntity>();
         }
 
@@ -40,20 +38,6 @@ namespace Data.Repositories
             {
                 e.Id = Guid.NewGuid();
             }
-            if (input is AuditedEntity<TKey> auditCreate)
-            {
-                auditCreate.CreatedAt = DateTime.Now;
-                var currentUser = _contextAccesstor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-                if (currentUser != null)
-                {
-                    auditCreate.CreatedBy = currentUser.Value;
-                }
-                else
-                {
-                    auditCreate.CreatedBy = "Anonymous";
-                }
-
-            }
             _dbSet.Add(input);
             if (await _context.SaveChangesAsync() > 0)
             {
@@ -64,19 +48,6 @@ namespace Data.Repositories
 
         public virtual async Task<TEntity?> UpdateAsync(TEntity input)
         {
-            if (input is AuditedEntity<TKey> auditUpdate)
-            {
-                auditUpdate.UpdatedAt = DateTime.Now;
-                var currentUser = _contextAccesstor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-                if (currentUser != null)
-                {
-                    auditUpdate.UpdatedBy = currentUser.Value;
-                }
-                else
-                {
-                    auditUpdate.UpdatedBy = "Anonymous";
-                }
-            }
             _dbSet.Update(input);
             if (await _context.SaveChangesAsync() > 0)
             {
@@ -91,9 +62,12 @@ namespace Data.Repositories
 
         public virtual async Task<bool> DeleteAsync(TKey id)
         {
-            return await _dbSet.DeleteByKeyAsync<TEntity, TKey>(id) > 0;
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == default(TEntity)) return false;
+            _dbSet.Remove(entity);
+            return await _context.SaveChangesAsync() > 0;
         }
-        
+
         public virtual Task<int> DeleteAsync(IEnumerable<TKey> keys)
         {
             var query = _dbSet.Where(e => keys.Contains(e.Id));

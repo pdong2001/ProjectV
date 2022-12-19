@@ -29,9 +29,10 @@ export class DSSanPhamComponent implements OnInit {
   public items: SanPhamDto[] = [];
 
   // Component state variables
+  public tabViewIndex: number = 0;
   public tableOffsetTop: number = 0;
   public selectedItems: SanPhamDto[] = [];
-  public selectedItem: SanPhamDto | null = null;
+  public selectedItem: SanPhamDto | undefined;
   public btnItems: MenuItem[];
   public loading: boolean = false;
   public showDialog: boolean = false;
@@ -124,6 +125,7 @@ export class DSSanPhamComponent implements OnInit {
     } else {
       resposne = this.sanPhamService.create(data);
     }
+    this.loading = true;
     resposne.subscribe({
       next: (res) => {
         if (res.success && res.data) {
@@ -145,7 +147,6 @@ export class DSSanPhamComponent implements OnInit {
                   detail: 'Thêm sản phẩm thành công.',
                 });
               }
-              this.showDialog = false;
             }
           });
         } else {
@@ -155,6 +156,7 @@ export class DSSanPhamComponent implements OnInit {
           });
         }
       },
+      complete: () => (this.loading = false),
     });
   }
 }

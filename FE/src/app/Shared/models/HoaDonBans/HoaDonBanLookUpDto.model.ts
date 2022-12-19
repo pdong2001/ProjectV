@@ -1,10 +1,9 @@
-
-export class HoaDonBanLookUpDto {
-	pageSize: number = 0;
-	pageIndex: number = 0;
-	sort: string | null = "";
-	search: string | null = "";
-	columns: string | null = "";
-	sanPhamId: number | null = null;
-	idKhachHang: number | null = null;
+export interface HoaDonBanLookUpDto {
+  pageSize: number;
+  pageIndex: number;
+  sort?: string;
+  search?: string;
+  columns?: string;
+  sanPhamId?: number;
+  idKhachHang?: number;
 }

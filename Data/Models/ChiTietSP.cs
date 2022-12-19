@@ -20,7 +20,7 @@ namespace Data.Models
         public int SoLuong { get; set; }
         public string DVT { get; set; }
         public string? MoTa { get; set; }
-        public string AnhCT { get; set; }
+        public string? AnhCT { get; set; }
         /// <summary>
         /// Thông số kỹ thuật
         /// </summary>

@@ -63,7 +63,6 @@ namespace Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AnhCT")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Code")
@@ -94,9 +93,6 @@ namespace Data.Migrations
                     b.Property<string>("MoTa")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SanPhamId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
@@ -106,9 +102,92 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SanPhamId");
+                    b.HasIndex("IdSanPham");
 
                     b.ToTable("ChiTietSP");
+                });
+
+            modelBuilder.Entity("Data.Models.DonNhap", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AnhCT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DVT")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DonVi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gia")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdChiTietSP")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdSanPham")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("KichThuoc")
+                        .HasColumnType("float");
+
+                    b.Property<string>("MauSac")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MoTa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SoLuong")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TSKT")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdChiTietSP");
+
+                    b.HasIndex("IdSanPham");
+
+                    b.ToTable("DonNhap");
                 });
 
             modelBuilder.Entity("Data.Models.HoaDonBan", b =>
@@ -119,17 +198,49 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DiaChi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("DonGia")
                         .HasColumnType("float");
 
                     b.Property<int>("IdKhachHang")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("SanPhamId")
                         .HasColumnType("int");
 
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -362,11 +473,11 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("78f5610c-77be-45a7-be07-effb2bab65ff"),
-                            CreatedAt = new DateTime(2022, 12, 7, 7, 30, 0, 254, DateTimeKind.Local).AddTicks(911),
+                            CreatedAt = new DateTime(2022, 12, 19, 15, 49, 17, 542, DateTimeKind.Local).AddTicks(7003),
                             CreatedBy = "Seeding",
                             Email = "admin@test.tt",
                             FullName = "Quản trị viên",
-                            Password = "$2a$11$5pznNo75yg5Msi882ZdTN.65IwWZys9V//epx2weJ35znlTFS.Gme",
+                            Password = "$2a$11$OJ85qaVufNWcmf5H2742g.uZROYi46ELXN9paHNIVRz6FVK3aXT1.",
                             PhoneNumber = "0987654321",
                             Roles = "_ad",
                             UserName = "admin"
@@ -375,9 +486,32 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Models.ChiTietSP", b =>
                 {
-                    b.HasOne("Data.Models.SanPham", null)
+                    b.HasOne("Data.Models.SanPham", "SanPham")
                         .WithMany("ChiTietSP")
-                        .HasForeignKey("SanPhamId");
+                        .HasForeignKey("IdSanPham")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("SanPham");
+                });
+
+            modelBuilder.Entity("Data.Models.DonNhap", b =>
+                {
+                    b.HasOne("Data.Models.ChiTietSP", "ChiTietSP")
+                        .WithMany()
+                        .HasForeignKey("IdChiTietSP")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Models.SanPham", "SanPham")
+                        .WithMany("DSDonNhap")
+                        .HasForeignKey("IdSanPham")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChiTietSP");
+
+                    b.Navigation("SanPham");
                 });
 
             modelBuilder.Entity("Data.Models.HoaDonBan", b =>
@@ -422,6 +556,8 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Models.SanPham", b =>
                 {
                     b.Navigation("ChiTietSP");
+
+                    b.Navigation("DSDonNhap");
                 });
 #pragma warning restore 612, 618
         }

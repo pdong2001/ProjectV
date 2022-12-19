@@ -1,4 +1,12 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
@@ -23,14 +31,23 @@ export class DSChiTietSPComponent implements OnInit {
   onResize() {
     this.tableOffsetTop = this.table.el.nativeElement.offsetTop;
   }
-
+  @Input('sanpham')
+  public set sanPham(value: SanPhamDto | undefined) {
+    this._sanPham = value;
+    this.loadChiTietSP();
+  }
+  private _sanPham: SanPhamDto | undefined;
+  public get sanPham(): SanPhamDto | undefined {
+    return this._sanPham;
+  }
+  @Output('sanPhamChange') sanPhamChange = new EventEmitter<SanPhamDto>();
   // Component data variables
   public items: ChiTietDto[] = [];
 
   // Component state variables
   public tableOffsetTop: number = 0;
   public selectedItems: ChiTietDto[] = [];
-  public selectedItem: ChiTietDto | null = null;
+  public selectedItem: ChiTietDto | undefined;
   public btnItems: MenuItem[];
   public loading: boolean = false;
   public showDialog: boolean = false;
@@ -51,7 +68,6 @@ export class DSChiTietSPComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData();
     this.loadDSSP();
   }
 
@@ -64,48 +80,37 @@ export class DSChiTietSPComponent implements OnInit {
       },
     });
   }
-
-  public loadData() {
-    this.loading = true;
-    this.chiTietSPService.getList().subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.items = res.data || [];
-        }
-      },
-      complete: () => {
-        this.loading = false;
-      },
-    });
-  }
-
   public totalRecords: number = 0;
 
-  public loadChiTietSP(e: any) {
-    this.loading = true;
-    const payload = new ChiTietSPLookUpDto();
-    payload.pageIndex = e.first / e.rows + 1;
-    payload.pageSize = e.rows;
-    payload.search = e.globalFilter;
-    payload.columns = (e.multiSortMeta as any[])?.reduce(
-      (pre, value) =>
-        pre + `${value.field} ${value.order === 1 ? "ASC" : "DESC"},`,
-      ''
-    );
-    this.chiTietSPService.search(payload).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.items = res.data?.items || [];
-          this.totalRecords = res.data?.total ?? 0;
-        }
-      },
-      complete: () => {
-        this.loading = false;
-      },
-    });
+  public loadChiTietSP() {
+    if (this.sanPham?.id) {
+      this.loading = true;
+      const payload: ChiTietSPLookUpDto = {};
+      payload.pageIndex = 1;
+      payload.pageSize = 999999;
+      payload.idSanPham = this.sanPham.id;
+      this.chiTietSPService.search(payload).subscribe({
+        next: (res) => {
+          if (res.success) {
+            if (res.data?.items) {
+              res.data.items.forEach((item) => {
+                item.sanPham = this.sanPham;
+              });
+            }
+            this.items = res.data?.items || [];
+          }
+        },
+        complete: () => {
+          this.loading = false;
+        },
+      });
+    } else {
+      this.items = [];
+    }
   }
 
   public showAdd() {
+    return;
     this.selectedItem = new ChiTietDto();
     this.showDialog = true;
   }
@@ -119,6 +124,10 @@ export class DSChiTietSPComponent implements OnInit {
 
   public save(data: CreateUpdateChiTietDto) {
     let resposne: Observable<ServiceResponse<ChiTietDto>>;
+    if (this.sanPham?.id) data.idSanPham = this.sanPham.id;
+    else {
+      return;
+    }
     const id = this.selectedItem?.id;
     if (id) {
       resposne = this.chiTietSPService.update(id, data);
