@@ -1,10 +1,22 @@
 <p-toolbar>
   <ng-template pTemplate="left">
-    <p-splitButton
-      label="Thêm mới"
-      [model]="btnItems"
-      (onClick)="showAdd()"
-    ></p-splitButton>
+    <div class="grid">
+      <p-button
+        class="col-fixed"
+        label="Thêm mới"
+        icon="pi pi-plus"
+        (onClick)="showAdd()"
+      ></p-button>
+      <p-button
+        label="Xóa đã chọn"
+        icon="pi pi-trash"
+        class="col-fixed"
+        styleClass="p-button-danger"
+        [badge]="this.selectedItems.length.toString()"
+        [disabled]="this.selectedItems.length ? false : true"
+        (onClick)="showDelete()"
+      ></p-button>
+    </div>
   </ng-template>
   <ng-template pTemplate="right">
     <span class="p-input-icon-left ml-auto">

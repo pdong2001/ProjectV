@@ -101,7 +101,12 @@ namespace Services.Implements
             var response = new ServiceResponse<PageResultDto<TDto>>();
             var query = _repos.GetQueryable();
             query = BeforeSearch(query, request);
-            if (!string.IsNullOrWhiteSpace(request.Columns))
+
+            if (string.IsNullOrWhiteSpace(request.Columns))
+            {
+                request.Columns = "ID DESC";
+            }
+        
                 query = query.OrderBy(request.Columns.Trim(','));
             long count = await query.LongCountAsync();
             var queryResult = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize).ToListAsync();

@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { LoaiSPDto } from 'src/app/Shared/models/LoaiSPs/LoaiSPDto.model';
@@ -44,10 +44,19 @@ export class DSSanPhamComponent implements OnInit {
     private message: MessageService,
     private loaiSpService: LoaiSPService,
     private thuongHieuService: ThuongHieuService,
+    private confirmation: ConfirmationService,
     breadCrumb: BreadCrumbService
   ) {
     breadCrumb.setPageTitle('Quản lý sản phẩm');
-    this.btnItems = [{ label: 'Xóa đã chọn', icon: 'fa-regular fa-trash-can' }];
+    this.btnItems = [
+      {
+        label: 'Xóa đã chọn',
+        icon: 'fa-regular fa-trash-can',
+        command: () => {
+          this.showDelete();
+        },
+      },
+    ];
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -115,7 +124,38 @@ export class DSSanPhamComponent implements OnInit {
     this.showDialog = true;
   }
 
-  public showDelete() {}
+  public showDelete() {
+    this.confirmation.confirm({
+      message: `Bạn có chắc chắn muốn xóa ${this.selectedItems.length}`,
+      header: 'Xác nhận',
+      accept: () => {
+        this.loading = true;
+        this.sanPhamService
+          .deleteMany(this.selectedItems.map((item) => item.id))
+          .subscribe({
+            next: (res) => {
+              if (res.success) {
+                this.message.add({
+                  detail: `Đã xóa ${res.data} sản phẩm`,
+                  severity: 'success',
+                });
+                this.items = this.items.filter(
+                  (i) =>
+                    this.selectedItems.findIndex((d) => d.id === i.id) === -1
+                );
+                this.selectedItems = [];
+              } else {
+                this.message.add({
+                  detail: `Đã xóa ${res.data} sản phẩm`,
+                  severity: 'success',
+                });
+              }
+            },
+            complete: () => (this.loading = false),
+          });
+      },
+    });
+  }
 
   public save(data: CreateUpdateSanPhamDto) {
     let resposne: Observable<ServiceResponse<SanPhamDto>>;
