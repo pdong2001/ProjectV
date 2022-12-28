@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BlobDto } from '../models/BlobDto.model';
 import { ServiceResponse } from '../models/ServiceResponse.model';
 import { HttpService } from './http.service';
 
@@ -8,6 +9,11 @@ import { HttpService } from './http.service';
 })
 export class BlobService {
   constructor(private http: HttpService) {}
+
+  public getAll() {
+    const url = `api/blobStorages`;
+    return this.http.get<ServiceResponse<BlobDto[]>>(url);
+  }
 
   upload(
     files: FileList | File[],

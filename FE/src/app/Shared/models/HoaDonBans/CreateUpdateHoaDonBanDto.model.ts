@@ -1,7 +1,10 @@
+import { CreateUpdateChiTietDto } from '../ChiTietSPs/CreateUpdateChiTietDto.model';
 
-export class CreateUpdateHoaDonBanDto {
-	soLuong: number = 0;
-	sanPhamId: number = 0;
-	idKhachHang: number = 0;
-	donGia: any = 0;
+export interface CreateUpdateHoaDonBanDto {
+  idKhachHang: number;
+  xa?: string | null;
+  tinh?: string | null;
+  huyen?: string | null;
+  diaChi?: string | null;
+  chiTiet?: CreateUpdateChiTietDto[] | null;
 }

@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { DataViewModule } from 'primeng/dataview';
 
-import { FormsModule } from '@angular/forms';
-import { CalendarModule } from 'primeng/calendar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BadgeModule } from 'primeng/badge';
+import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ImageModule } from 'primeng/image';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
+import { CardModule } from 'primeng/card';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
@@ -22,9 +24,11 @@ import { DsLoaiSPComponent } from './ds-loai-sp/ds-loai-sp.component';
 import { DSKhachHangComponent } from './dskhach-hang/dskhach-hang.component';
 import { DSSanPhamComponent } from './dssan-pham/dssan-pham.component';
 import { DSThuongHieuComponent } from './dsthuong-hieu/dsthuong-hieu.component';
-import { MainRoutingModule } from './main-routing.module';
+import { ImagesComponent } from './images/images.component';
 import { ImportListComponent } from './import-list/import-list.component';
+import { MainRoutingModule } from './main-routing.module';
 import { OrderListComponent } from './order-list/order-list.component';
+import { ThongKeDoanhSoComponent } from './thong-ke-doanh-so/thong-ke-doanh-so.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +39,8 @@ import { OrderListComponent } from './order-list/order-list.component';
     DSThuongHieuComponent,
     ImportListComponent,
     OrderListComponent,
+    ThongKeDoanhSoComponent,
+    ImagesComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +54,7 @@ import { OrderListComponent } from './order-list/order-list.component';
     RippleModule,
     DropdownModule,
     FormsModule,
+    ReactiveFormsModule,
     CalendarModule,
     InputNumberModule,
     ToggleButtonModule,
@@ -55,6 +62,8 @@ import { OrderListComponent } from './order-list/order-list.component';
     PipesModule,
     TabViewModule,
     BadgeModule,
+    DataViewModule,
+    CardModule,
   ],
 })
 export class MainModule {}

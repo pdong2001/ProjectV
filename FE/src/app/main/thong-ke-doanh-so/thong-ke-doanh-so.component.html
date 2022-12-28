@@ -1,0 +1,68 @@
+<p-toolbar>
+    <div class="grid w-100">
+      <div class="field col-fixed">
+        <span class="p-float-label">
+          <p-calendar
+            appendTo="body"
+            placeholder="Không giới hạn"
+            [showClear]="true"
+            (ngModelChange)="loadData()"
+            [(ngModel)]="start"
+          ></p-calendar>
+          <label for="">Từ ngày</label>
+        </span>
+      </div>
+      <div class="field col-fixed">
+        <span class="p-float-label">
+          <p-calendar
+            appendTo="body"
+            placeholder="Hiện tại"
+            [showClear]="true"
+            (ngModelChange)="loadData()"
+            [(ngModel)]="end"
+          ></p-calendar>
+          <label for="">Đến ngày</label>
+        </span>
+      </div>
+    </div>
+  </p-toolbar>
+  
+  <p-table
+    [value]="data"
+    [loading]="loading"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem"></th>
+        <th pSortableColumn="date">
+          Ngày <p-sortIcon field="date"></p-sortIcon>
+        </th>
+        <th pSortableColumn="soLuong">
+          Số lượng <p-sortIcon field="soLuog"></p-sortIcon>
+        </th>
+        <th pSortableColumn="tong">
+          Tổng số <p-sortIcon field="tong"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-item
+      let-index="$index"
+    >
+      <tr>
+        <td>{{ index }}</td>
+        <td class="font-semibold">{{ item.date | date : "dd/MM/yyyy" }}</td>
+        <td class="font-semibold">{{ item.soLuong | number : "0.0-0" }}</td>
+        <td class="font-semibold">{{ item.tong | currency : "VND" }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="100">
+          <div class="text-center font-semibold">Không có đơn hàng</div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  

@@ -10,9 +10,13 @@ namespace Data.Models
     {
         public string HoTen { get; set; }
         public DateTime NgaySinh { get; set; }
-        public string DiaChi { get; set; }
+        public string? Tinh { get; set; }
+        public string? Huyen { get; set; }
+        public string? Xa { get; set; }
+        public string? DiaChi { get; set; }
         public string SDT { get; set; }
-        public string email { get; set; }
+        public string? Email { get; set; }
+        public string? PassWord { get; set; }
         public ICollection<HoaDonBan> DSHoaDon { get; set; }
     }
 }

@@ -6,4 +6,6 @@ export const RouteMaps = {
   brands: 'ds-thuong-hieu',
   imports: 'don-nhap',
   orders: 'don-ban',
+  orderStatistic: 'thong-ke-doanh-so',
+  images: 'hinh-anh',
 };

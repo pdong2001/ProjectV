@@ -11,8 +11,11 @@ namespace API.Controllers
     [ApiController]
     public class HoaDonBansController : PagedCRUDBaseController<int, HoaDonBan, HoaDonBanDto, CreateUpdateHoaDonBanDto, HoaDonBanLookUpDto>
     {
+        private readonly IHoaDonBanService service;
+
         public HoaDonBansController(IHoaDonBanService service) : base(service)
         {
+            this.service = service;
         }
 
         [NonAction]
@@ -21,5 +24,10 @@ namespace API.Controllers
             return base.UpdateAsync(id, request);
         }
 
+        [HttpPost("doanh-so")]
+        public async Task<IActionResult> DoanhSo(DoanhSoRequestDto request)
+        {
+            return Ok(await service.ThongKeDoanhSo(request));
+        }
     }
 }

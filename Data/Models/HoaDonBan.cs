@@ -19,9 +19,10 @@ namespace Data.Models
 
         public string DiaChi { get; set; }
 
-        public int SanPhamId { get; set; }
-        public ChiTietSP SanPham { get; set; }
-
         public OrderStatus Status { get; set; }
+
+        public bool YeuCauHuy { get; set; }
+
+        public ICollection<CTDonBan> ChiTiet { get; set; }
     }
 }

@@ -19,21 +19,32 @@ namespace Services.Implements
         {
         }
 
+        public override IQueryable<SanPham> BeforeQuery(IQueryable<SanPham> query)
+        {
+            query = query
+                .Include(e => e.ChiTietSP)
+                .Include(s => s.ThuongHieu)
+                .Include(s => s.LoaiSP);
+            return base.BeforeQuery(query);
+        }
+
         public override IQueryable<SanPham> BeforeGet(int id, IQueryable<SanPham> query)
         {
-            query = query.Include(s => s.ThuongHieu)
+            query = query
+                .Include(s => s.ThuongHieu)
                 .Include(s => s.LoaiSP);
             return base.BeforeGet(id, query);
         }
         protected override IQueryable<SanPham> BeforeSearch(IQueryable<SanPham> query, SanPhamLookUpDto request)
         {
-            query = query.Include(s => s.ThuongHieu)
+            query = query
+                .Include(s => s.ThuongHieu)
                 .Include(s => s.LoaiSP)
                 .Include(s => s.ChiTietSP);
             if (request.HasDetailOnly)
             {
                 query = query.Where(s => s.ChiTietSP.Count > 0);
-            }    
+            }
             if (request.IdLoaiSP.HasValue)
             {
                 query = query.Where(s => s.IdLoaiSP == request.IdLoaiSP.Value);

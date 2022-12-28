@@ -1,15 +1,19 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
-import { DonNhapLookUpDto } from 'src/app/Shared/models/DonNhaps/DonNhapLookUpDto.model';
+import { ChiTietDto } from 'src/app/Shared/models/ChiTietSPs/ChiTietDto.model';
+import { OrderStatus } from 'src/app/Shared/models/Enums/OrderStatus.enum';
 import { CreateUpdateHoaDonBanDto } from 'src/app/Shared/models/HoaDonBans/CreateUpdateHoaDonBanDto.model';
+import { CTDonBanDto } from 'src/app/Shared/models/HoaDonBans/CTDonBanDto.model';
 import { HoaDonBanDto } from 'src/app/Shared/models/HoaDonBans/HoaDonBanDto.model';
 import { HoaDonBanLookUpDto } from 'src/app/Shared/models/HoaDonBans/HoaDonBanLookUpDto.model';
-import { SanPhamDto } from 'src/app/Shared/models/SanPhams/SanPhamDto.model';
+import { KhachHangDto } from 'src/app/Shared/models/KhachHangs/KhachHangDto.model';
 import { ServiceResponse } from 'src/app/Shared/models/ServiceResponse.model';
 import { BreadCrumbService } from 'src/app/Shared/services/client/bread-crumb.service';
 import { DonBanService } from 'src/app/Shared/services/don-ban.service';
+import { KhachHangService } from 'src/app/Shared/services/khach-hang.service';
 import { SanPhamService } from 'src/app/Shared/services/san-pham.service';
 
 @Component({
@@ -19,29 +23,48 @@ import { SanPhamService } from 'src/app/Shared/services/san-pham.service';
 })
 export class OrderListComponent implements OnInit {
   @ViewChild(Table) table!: Table;
-  dsSanPham: SanPhamDto[] = [];
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.tableOffsetTop = this.table.el.nativeElement.offsetTop;
   }
   // Component data variables
+  public dsSanPham: ChiTietDto[] = [];
   public items: HoaDonBanDto[] = [];
-
+  public dsKhachHang: KhachHangDto[] = [];
   // Component state variables
+  public formVisible: boolean = false;
   public tableOffsetTop: number = 0;
   public selectedItems: HoaDonBanDto[] = [];
   public selectedItem: HoaDonBanDto | undefined;
   public btnItems: MenuItem[];
   public loading: boolean = false;
   public showDialog: boolean = false;
-
+  public form: FormGroup;
+  public OrderStatus = OrderStatus;
+  private _selectedKH: KhachHangDto | undefined;
+  public get selectedKH(): KhachHangDto | undefined {
+    return this._selectedKH;
+  }
+  public set selectedKH(value: KhachHangDto | undefined) {
+    this._selectedKH = value;
+  }
+  public dsChiTiet: CTDonBanDto[] = [];
+  public dsChiTietSP: ChiTietDto[] = [];
   constructor(
+    private khachHangService: KhachHangService,
     private donBanService: DonBanService,
     private message: MessageService,
     private sanPhamService: SanPhamService,
     private confirmation: ConfirmationService,
+    formBuilder: FormBuilder,
     breadCrumb: BreadCrumbService
   ) {
+    this.form = formBuilder.group({
+      xa: [''],
+      tinh: [''],
+      huyen: [''],
+      diaChi: [''],
+    });
     breadCrumb.setPageTitle('Quản lý chi tiết sản phẩm');
     this.btnItems = [{ label: 'Xóa đã chọn', icon: 'fa-regular fa-trash-can' }];
   }
@@ -56,22 +79,88 @@ export class OrderListComponent implements OnInit {
     this.loadData();
   }
 
+  public loadKH() {
+    this.khachHangService.getList().subscribe((res) => {
+      if (res.data) {
+        this.dsKhachHang = res.data;
+      }
+    });
+  }
+
+  ctToDelete: number[] = [];
+  public delete(id: number) {
+    const index = this.dsChiTiet.findIndex((s) => s.sanPhamId == id);
+    if (index >= 0) {
+      this.ctToDelete.push(id);
+      this.dsChiTiet.splice(index, 1);
+    }
+  }
+  public addCT(sp: ChiTietDto, sl: number) {
+    const index = this.dsChiTiet.findIndex((s) => s.sanPhamId == sp.id);
+    if (index >= 0) {
+      const ct = this.dsChiTiet[index];
+      ct.soLuong += sl;
+      this.dsChiTiet[index] = ct;
+    } else {
+      this.dsChiTiet.unshift({
+        sanPhamId: sp.id,
+        sanPham: sp,
+        soLuong: sl,
+        donGia: sp.gia,
+        hoaDonId: 0,
+        hoaDon: this.selectedItem,
+        id: 0,
+      });
+      console.log(this.dsChiTiet);
+    }
+  }
+
   public loadDSSP() {
     this.sanPhamService.getList().subscribe({
       next: (res) => {
         if (res.success) {
-          this.dsSanPham = res.data ?? [];
+          if (res.data) {
+            this.dsSanPham = res.data.flatMap((s) => {
+              if (s.chiTietSP) {
+                s.chiTietSP.forEach((ct) => {
+                  ct.sanPham = { ...s };
+                  ct.sanPham.chiTietSP = [];
+                });
+              }
+              return s.chiTietSP ?? [];
+            });
+            console.log(this.dsSanPham);
+          }
         }
       },
     });
   }
   public totalRecords: number = 0;
 
+  private _start?: Date | undefined;
+  public get start(): Date | undefined {
+    return this._start;
+  }
+  public set start(value: Date | undefined) {
+    this._start = value;
+    this.loadData();
+  }
+  private _end?: Date | undefined;
+  public get end(): Date | undefined {
+    return this._end;
+  }
+  public set end(value: Date | undefined) {
+    if (value) this._end = value;
+    else this._end = new Date();
+    this.loadData();
+  }
   public loadData() {
     this.loading = true;
     const payload: HoaDonBanLookUpDto = {
       pageIndex: 1,
       pageSize: 999999,
+      start: this.start,
+      end: this.end,
     };
     this.donBanService.search(payload).subscribe({
       next: (res) => {
@@ -112,16 +201,42 @@ export class OrderListComponent implements OnInit {
     });
   }
 
+  public submit() {
+    if (this.form.valid) {
+      const payload = { ...this.form.value };
+      payload.chiTiet = this.dsChiTiet.filter((c) => c.id);
+      payload.hoaDonId = this.selectedItem?.id;
+      this.save(payload);
+    }
+  }
+
+  public add() {
+    this.selectedItem = undefined;
+    this.form.reset();
+    this.formVisible = true;
+  }
+
+  public edit(item: HoaDonBanDto) {
+    this.selectedItem = item;
+    this.form.patchValue(item);
+    this.formVisible = true;
+  }
+
   public save(data: CreateUpdateHoaDonBanDto) {
     let resposne: Observable<ServiceResponse<HoaDonBanDto>>;
-    resposne = this.donBanService.create(data);
+    const id = this.selectedItem?.id;
+    if (id) {
+      resposne = this.donBanService.update(id, data);
+    } else {
+      resposne = this.donBanService.create(data);
+    }
 
     resposne.subscribe({
       next: (res) => {
         if (res.success && res.data) {
           this.donBanService.get(res.data.id).subscribe((res) => {
             if (res.data && res.success) {
-              this.items = [res.data, ...this.items];
+              this.loadData();
               this.message.add({
                 severity: 'success',
                 detail: 'Thêm chi tiết sản phẩm thành công.',

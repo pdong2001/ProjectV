@@ -7,9 +7,11 @@ import { DsLoaiSPComponent } from './ds-loai-sp/ds-loai-sp.component';
 import { DSKhachHangComponent } from './dskhach-hang/dskhach-hang.component';
 import { DSSanPhamComponent } from './dssan-pham/dssan-pham.component';
 import { DSThuongHieuComponent } from './dsthuong-hieu/dsthuong-hieu.component';
+import { ImagesComponent } from './images/images.component';
 import { ImportListComponent } from './import-list/import-list.component';
 import { MainComponent } from './main.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import { ThongKeDoanhSoComponent } from './thong-ke-doanh-so/thong-ke-doanh-so.component';
 
 const routes: Routes = [
   {
@@ -56,6 +58,20 @@ const routes: Routes = [
       {
         path: RouteMaps.orders,
         component: OrderListComponent,
+        data: {
+          Roles: [Roles.Admin],
+        },
+      },
+      {
+        path: RouteMaps.orderStatistic,
+        component: ThongKeDoanhSoComponent,
+        data: {
+          Roles: [Roles.Admin],
+        },
+      },
+      {
+        path: RouteMaps.images,
+        component: ImagesComponent,
         data: {
           Roles: [Roles.Admin],
         },

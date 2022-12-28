@@ -1,7 +1,10 @@
+import { CreateUpdateCTDonBanDto } from "../HoaDonBans/CreateUpdateCTDonBanDto.model";
 
 export class CreateUpdateHoaDonBanDto {
-	soLuong: number = 0;
-	sanPhamId: number = 0;
 	idKhachHang: number = 0;
-	donGia: any = 0;
+	xa: string | null = "";
+	tinh: string | null = "";
+	huyen: string | null = "";
+	diaChi: string | null = "";
+	chiTiet: CreateUpdateCTDonBanDto[] | null = [];
 }

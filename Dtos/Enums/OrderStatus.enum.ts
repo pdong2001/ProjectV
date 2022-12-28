@@ -3,6 +3,6 @@ export enum OrderStatus {
 	ChapNhan = 1,
 	TuChoi = 2,
 	DangGiao = 3,
-	YeuCauHuy = 4,
 	Huy = 5,
+	HoanThanh = 6,
 }

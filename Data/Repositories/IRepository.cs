@@ -11,6 +11,7 @@ namespace Data.Repositories
     {
         Task<TEntity?> AddAsync(TEntity input);
         Task<bool> DeleteAsync(TKey id);
+        Task<int> AddRangeAsync(IEnumerable<TEntity> input);
         Task<TEntity?> GetAsync(TKey id);
         IQueryable<TEntity> GetQueryable();
         Task<List<TEntity>> ToListAsync();

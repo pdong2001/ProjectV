@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221228075303_Updated_HoaDonBan")]
+    partial class Updated_HoaDonBan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,32 +289,22 @@ namespace Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("DiaChi")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HoTen")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Huyen")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("NgaySinh")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("PassWord")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SDT")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Tinh")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Xa")
+                    b.Property<string>("email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -510,11 +502,11 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("78f5610c-77be-45a7-be07-effb2bab65ff"),
-                            CreatedAt = new DateTime(2022, 12, 28, 16, 17, 44, 302, DateTimeKind.Local).AddTicks(9684),
+                            CreatedAt = new DateTime(2022, 12, 28, 14, 53, 3, 616, DateTimeKind.Local).AddTicks(2510),
                             CreatedBy = "Seeding",
                             Email = "admin@test.tt",
                             FullName = "Quản trị viên",
-                            Password = "$2a$11$cSlC.qOIpz35/9E3VwJUGu5ZYCXMdpat/1xL5PI62p77kqG7.JNhq",
+                            Password = "$2a$11$0J7WpD4cfr2Gjbox.7eToO61TqIQbkfG/L2cTTxGd4AIlHe.d/SNe",
                             PhoneNumber = "0987654321",
                             Roles = "_ad",
                             UserName = "admin"

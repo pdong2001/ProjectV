@@ -3,7 +3,6 @@ export enum OrderStatus {
   ChapNhan = 1,
   TuChoi = 2,
   DangGiao = 3,
-  YeuCauHuy = 4,
   Huy = 5,
 }
 export namespace OrderStatus {
@@ -17,8 +16,6 @@ export namespace OrderStatus {
         return 'Từ chối';
       case OrderStatus.DangGiao:
         return 'Đang giao';
-      case OrderStatus.YeuCauHuy:
-        return 'yêu cầu hủy';
       case OrderStatus.Huy:
         return 'Đã hủy';
       default:

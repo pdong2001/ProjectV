@@ -22,6 +22,19 @@ namespace Data.Repositories
             _dbSet = context.Set<TEntity>();
         }
 
+        public async Task<int> AddRangeAsync(IEnumerable<TEntity> input)
+        {
+            foreach (var item in input)
+            {
+                if (item.Id is Entity<Guid> e && e.Id == Guid.Empty)
+                {
+                    e.Id = Guid.NewGuid();
+                }
+            }
+            await _dbSet.AddRangeAsync(input);
+            return await _context.SaveChangesAsync();
+        }
+
         public IQueryable<TEntity> GetQueryable()
         {
             var query = _dbSet.AsQueryable();

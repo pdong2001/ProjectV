@@ -1,0 +1,39 @@
+<p-card>
+  <ng-template pTemplate="header">
+    <h1 class="m-3">Kho ảnh</h1>
+  </ng-template>
+  <p-dataView [value]="images">
+    <ng-template
+      let-item
+      pTemplate="listItem"
+    >
+      <div class="md:col-3 sm:col-6 col-12 relative">
+        <div style="width: 100%; padding-bottom: 120%"></div>
+        <div
+          class="absolute flex align-items-center justify-content-center"
+          style="top: 0; bottom: 15%; left: 0; right: 0"
+        >
+          <p-image
+            [src]="item.id | externalUrl"
+            [style]="{
+              height: '100%',
+              width: '100%',
+              display: 'block'
+            }"
+            class="w-100 h-100"
+            imageClass="w-100 h-100 p-3"
+            [imageStyle]="{
+              'object-fit': 'cover'
+            }"
+          ></p-image>
+        </div>
+        <div
+          class="absolute flex align-items-center justify-content-center"
+          style="top: 85%; bottom: 0; left: 0; right: 0"
+        >
+          {{ item.name }}
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</p-card>

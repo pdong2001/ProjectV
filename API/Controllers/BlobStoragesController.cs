@@ -2,6 +2,7 @@
 using Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 
 namespace API.Controllers
@@ -26,8 +27,26 @@ namespace API.Controllers
             return File(blob.Content, blob.ContentType, blob.FileName);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var blobs = await _context.Blobs.Select(b => new BlobDto()
+            {
+                ContentType = b.ContentType,
+                Name = b.Name,
+                Id = b.Id,
+                FileName = b.FileName,
+                Folder = b.Folder,
+            }).ToListAsync();
+            return Ok(new ServiceResponse<List<BlobDto>>()
+            {
+                Data = blobs,
+                Success = true,
+            });
+        }
+
         [HttpPost]
-        public async Task<IActionResult> GetById()
+        public async Task<IActionResult> Upload()
         {
             var folder = this.Request.Form["folder"].FirstOrDefault();
             var name = this.Request.Form["name"].FirstOrDefault();
