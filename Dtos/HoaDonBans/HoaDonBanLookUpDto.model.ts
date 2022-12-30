@@ -1,3 +1,4 @@
+import { OrderStatus } from "../Enums/OrderStatus.enum";
 
 export class HoaDonBanLookUpDto {
 	pageSize: number = 0;
@@ -5,6 +6,8 @@ export class HoaDonBanLookUpDto {
 	sort: string | null = "";
 	search: string | null = "";
 	columns: string | null = "";
-	sanPhamId: number | null = null;
+	end: Date | null = null;
+	start: Date | null = null;
+	status: OrderStatus | null = null;
 	idKhachHang: number | null = null;
 }

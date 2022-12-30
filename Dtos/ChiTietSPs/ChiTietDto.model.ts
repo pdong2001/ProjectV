@@ -10,6 +10,7 @@ export class ChiTietDto {
 	code: string | null = "";
 	moTa: string | null = "";
 	tskt: string | null = "";
+	uuDai: any = 0;
 	donVi: string | null = "";
 	anhCT: string | null = "";
 	mauSac: string | null = "";

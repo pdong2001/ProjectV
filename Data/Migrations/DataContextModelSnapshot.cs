@@ -100,6 +100,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("UuDai")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IdSanPham");
@@ -401,9 +404,6 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("UuDai")
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IdLoaiSP");
@@ -413,7 +413,7 @@ namespace Data.Migrations
                     b.ToTable("SanPham");
                 });
 
-            modelBuilder.Entity("Data.Models.Slide", b =>
+            modelBuilder.Entity("Data.Models.Setting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -421,9 +421,35 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("TenAnh")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DSAnh")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -510,11 +536,11 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("78f5610c-77be-45a7-be07-effb2bab65ff"),
-                            CreatedAt = new DateTime(2022, 12, 28, 16, 17, 44, 302, DateTimeKind.Local).AddTicks(9684),
+                            CreatedAt = new DateTime(2022, 12, 30, 10, 40, 8, 588, DateTimeKind.Local).AddTicks(9113),
                             CreatedBy = "Seeding",
                             Email = "admin@test.tt",
                             FullName = "Quản trị viên",
-                            Password = "$2a$11$cSlC.qOIpz35/9E3VwJUGu5ZYCXMdpat/1xL5PI62p77kqG7.JNhq",
+                            Password = "$2a$11$FrTN4fN/krcPnSfvM0CTBOa9KzFHiO7E4sULI3BfM/yhGZAjb9Zae",
                             PhoneNumber = "0987654321",
                             Roles = "_ad",
                             UserName = "admin"

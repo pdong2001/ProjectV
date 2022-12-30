@@ -11,7 +11,7 @@ import { KhachHangService } from 'src/app/Shared/services/khach-hang.service';
 @Component({
   selector: 'app-dskhach-hang',
   templateUrl: './dskhach-hang.component.html',
-  styleUrls: ['./dskhach-hang.component.css']
+  styleUrls: ['./dskhach-hang.component.css'],
 })
 export class DSKhachHangComponent implements OnInit {
   @ViewChild(Table) table!: Table;
@@ -26,7 +26,7 @@ export class DSKhachHangComponent implements OnInit {
   // Component state variables
   public tableOffsetTop: number = 0;
   public selectedItems: KhachHangDto[] = [];
-  public selectedItem: KhachHangDto | null = null;
+  public selectedItem: KhachHangDto | undefined;
   public btnItems: MenuItem[];
   public loading: boolean = false;
   public showDialog: boolean = false;
@@ -49,12 +49,18 @@ export class DSKhachHangComponent implements OnInit {
     this.loadData();
   }
 
-
   public loadData() {
     this.loading = true;
     this.khachHangService.getList().subscribe({
       next: (res) => {
         if (res.success) {
+          if (res.data?.length) {
+            res.data.forEach((item) => {
+              if (item.ngaySinh) {
+                item.ngaySinh = new Date(item.ngaySinh);
+              }
+            });
+          }
           this.items = res.data || [];
         }
       },
@@ -64,9 +70,8 @@ export class DSKhachHangComponent implements OnInit {
     });
   }
 
-
   public showAdd() {
-    this.selectedItem = new KhachHangDto();
+    this.selectedItem = undefined;
     this.showDialog = true;
   }
 

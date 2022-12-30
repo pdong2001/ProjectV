@@ -11,6 +11,7 @@ import { ImagesComponent } from './images/images.component';
 import { ImportListComponent } from './import-list/import-list.component';
 import { MainComponent } from './main.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import { SettingListComponent } from './setting-list/setting-list.component';
 import { ThongKeDoanhSoComponent } from './thong-ke-doanh-so/thong-ke-doanh-so.component';
 
 const routes: Routes = [
@@ -72,6 +73,13 @@ const routes: Routes = [
       {
         path: RouteMaps.images,
         component: ImagesComponent,
+        data: {
+          Roles: [Roles.Admin],
+        },
+      },
+      {
+        path: RouteMaps.settings,
+        component: SettingListComponent,
         data: {
           Roles: [Roles.Admin],
         },

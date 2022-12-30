@@ -8,5 +8,14 @@ namespace Services.Contracts.KhachHangs
 {
     public class CreateUpdateKhachHangDto
     {
+        public string HoTen { get; set; }
+        public DateTime NgaySinh { get; set; }
+        public string? Tinh { get; set; }
+        public string? Huyen { get; set; }
+        public string? Xa { get; set; }
+        public string? DiaChi { get; set; }
+        public string SDT { get; set; }
+        public string? Email { get; set; }
+        public string? PassWord { get; set; }
     }
 }

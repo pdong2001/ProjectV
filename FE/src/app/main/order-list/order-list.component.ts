@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -22,6 +28,15 @@ import { SanPhamService } from 'src/app/Shared/services/san-pham.service';
   styleUrls: ['./order-list.component.css'],
 })
 export class OrderListComponent implements OnInit {
+  @Input('idKhachHang')
+  public set idKhachHang(value: number | undefined) {
+    this._idKhachHang = value;
+    this.loadData();
+  }
+  private _idKhachHang: number | undefined;
+  public get idKhachHang(): number | undefined {
+    return this._idKhachHang;
+  }
   @ViewChild(Table) table!: Table;
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -48,8 +63,10 @@ export class OrderListComponent implements OnInit {
   public set selectedKH(value: KhachHangDto | undefined) {
     this._selectedKH = value;
   }
+  public orderStatuses: any[];
   public dsChiTiet: CTDonBanDto[] = [];
   public dsChiTietSP: ChiTietDto[] = [];
+  public selectedStatus: OrderStatus | undefined;
   constructor(
     private khachHangService: KhachHangService,
     private donBanService: DonBanService,
@@ -59,13 +76,14 @@ export class OrderListComponent implements OnInit {
     formBuilder: FormBuilder,
     breadCrumb: BreadCrumbService
   ) {
+    this.orderStatuses = OrderStatus.getList();
     this.form = formBuilder.group({
       xa: [''],
       tinh: [''],
       huyen: [''],
       diaChi: [''],
     });
-    breadCrumb.setPageTitle('Quản lý chi tiết sản phẩm');
+    breadCrumb.setPageTitle('Quản lý đơn đặt hàng');
     this.btnItems = [{ label: 'Xóa đã chọn', icon: 'fa-regular fa-trash-can' }];
   }
   ngAfterViewInit(): void {
@@ -77,6 +95,7 @@ export class OrderListComponent implements OnInit {
   ngOnInit(): void {
     this.loadDSSP();
     this.loadData();
+    this.loadKH();
   }
 
   public loadKH() {
@@ -161,6 +180,8 @@ export class OrderListComponent implements OnInit {
       pageSize: 999999,
       start: this.start,
       end: this.end,
+      status: this.selectedStatus,
+      idKhachHang: this.idKhachHang,
     };
     this.donBanService.search(payload).subscribe({
       next: (res) => {
@@ -172,16 +193,6 @@ export class OrderListComponent implements OnInit {
         this.loading = false;
       },
     });
-  }
-
-  public showAdd() {
-    this.selectedItem = undefined;
-    this.showDialog = true;
-  }
-
-  public showEdit(item: HoaDonBanDto) {
-    this.selectedItem = item;
-    this.showDialog = true;
   }
 
   public showDelete(input: HoaDonBanDto) {
@@ -218,6 +229,8 @@ export class OrderListComponent implements OnInit {
 
   public edit(item: HoaDonBanDto) {
     this.selectedItem = item;
+    this.selectedKH = this.dsKhachHang.find((kh) => item.idKhachHang == kh.id);
+    console.log(this.selectedKH);
     this.form.patchValue(item);
     this.formVisible = true;
   }
@@ -253,5 +266,61 @@ export class OrderListComponent implements OnInit {
         }
       },
     });
+  }
+  public updateStatus(status: OrderStatus) {
+    if (this.selectedItem) {
+      this.donBanService
+        .capNhatTrangThai(this.selectedItem.id, status)
+        .subscribe((res) => {
+          if (res.success) {
+            if (this.selectedItem) this.selectedItem.status = status;
+            this.message.add({
+              detail: 'Cập nhật trạng thái thành công',
+              severity: 'success',
+            });
+          }
+        });
+    }
+  }
+
+  public removeCT(item: CTDonBanDto) {
+    if (this.selectedItem) {
+      this.donBanService.delete(item.id).subscribe({
+        next: (res) => {
+          if (res.success) {
+            if (this.selectedItem) {
+              const index = this.selectedItem.chiTiet?.findIndex(
+                (c) => c.id == item.id
+              );
+              if (index && index >= 0) {
+                this.selectedItem.chiTiet?.splice(index, 1);
+              }
+            }
+          }
+        },
+      });
+    }
+  }
+
+  public deleteDonBan() {
+    if (this.selectedItems.length) {
+      if (
+        this.selectedItems.find(
+          (i) =>
+            i.status === OrderStatus.HoanThanh ||
+            i.status === OrderStatus.DangGiao ||
+            i.status === OrderStatus.ChapNhan
+        )
+      ) {
+        this.message.add({
+          detail: 'Bạn không thể xóa đơn hàng này',
+          severity: 'error',
+        });
+        return;
+      }
+      this.confirmation.confirm({
+        message: `Bạn có chắc chắn muốn xóa ${this.selectedItems.length} đơn hàng`,
+      });
+    }
   }
 }

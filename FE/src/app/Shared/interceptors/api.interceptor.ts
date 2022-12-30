@@ -14,48 +14,35 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
-  private dateRegex =
-    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})[.]\d+(([+|-]\d{2}:\d{2})|Z)$/;
-
   constructor(
-    messageService: MessageService,
-    router: Router,
+    private messageService: MessageService,
+    private router: Router,
     private auth: AuthService
-  ) {
-    ApiInterceptor.messageService = messageService;
-    ApiInterceptor.router = router;
-  }
+  ) {}
 
-  static messageService: MessageService;
-  static nextMessageAt: Date = new Date();
-  static processingUnauthorized: boolean = false;
-  static router: Router;
+  nextMessageAt: Date = new Date();
+  processingUnauthorized: boolean = false;
   handleError(error: HttpErrorResponse) {
     console.log(error);
     switch (error.status) {
       case 500:
-        if (new Date() >= ApiInterceptor.nextMessageAt) {
-          ApiInterceptor.nextMessageAt = new Date(Date.now() + 2000);
-          ApiInterceptor.messageService.add({
+        if (new Date() >= this.nextMessageAt) {
+          this.nextMessageAt = new Date(Date.now() + 2000);
+          this.messageService.add({
             severity: 'error',
             summary: 'Thông báo',
-            detail: `Đã có lỗi xảy ra! ${
-              environment.production ? '' : error.message
-            }`,
+            detail: `${error.error}`,
           });
         }
         break;
       case 401:
-        if (
-          !ApiInterceptor.processingUnauthorized &&
-          new Date() >= ApiInterceptor.nextMessageAt
-        ) {
-          ApiInterceptor.processingUnauthorized = true;
+        if (!this.processingUnauthorized && new Date() >= this.nextMessageAt) {
+          this.processingUnauthorized = true;
           new Promise(() => {
             alert('Bạn không có quyền truy cập vào chức năng này!');
             // const origin = location.origin;
-            ApiInterceptor.nextMessageAt = new Date(Date.now() + 2000);
-            ApiInterceptor.processingUnauthorized = false;
+            this.nextMessageAt = new Date(Date.now() + 2000);
+            this.processingUnauthorized = false;
           });
         }
         break;
@@ -77,43 +64,6 @@ export class ApiInterceptor implements HttpInterceptor {
         },
       });
     }
-    return next.handle(request).pipe(
-      catchError(this.handleError),
-      tap((event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse) {
-          this.convertDates(event.body);
-        }
-      })
-    );
-  }
-
-  private convertDates(object: any) {
-    if (!object || !(object instanceof Object)) {
-      return;
-    }
-
-    if (object instanceof Array) {
-      for (const item of object) {
-        this.convertDates(item);
-      }
-    }
-
-    for (const key of Object.keys(object)) {
-      const value = object[key];
-
-      if (value instanceof Array) {
-        for (const item of value) {
-          this.convertDates(item);
-        }
-      }
-
-      if (value instanceof Object) {
-        this.convertDates(value);
-      }
-
-      if (typeof value === 'string' && this.dateRegex.test(value)) {
-        object[key] = new Date(value);
-      }
-    }
+    return next.handle(request).pipe(catchError((e) => this.handleError(e)));
   }
 }

@@ -9,7 +9,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SlidesController : PagedCRUDBaseController<int, Slide, SlideDto, CreateUpdateSlideDto, PageLookUpDto>
+    public class SlidesController : PagedCRUDBaseController<int, Setting, SettingDto, CreateUpdateSettingDto, PageLookUpDto>
     {
         public SlidesController(ISlideService service) : base(service)
         {

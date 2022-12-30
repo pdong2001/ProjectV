@@ -61,13 +61,23 @@
         <p-tableCheckbox [value]="item"></p-tableCheckbox>
       </td>
       <td>
-        <div class="font-semibold">{{ item.hoten }}</div>
+        <div class="font-semibold">{{ item.hoTen }}</div>
       </td>
       <td>
-        <div class="font-semibold">{{ item.ngaysinh }}</div>
+        <div class="font-semibold">
+          {{ item.ngaySinh | date : "dd/MM/yyyy" }}
+        </div>
       </td>
       <td>
-        <div class="font-semibold">{{ item.diachi }}</div>
+        <div
+          class="font-semibold text-overflow-ellipsis overflow-hidden"
+          style="max-width: 300px"
+          pTooltip="{{ item.tinh }}, {{ item.huyen }}, {{ item.xa }}, {{
+            item.diaChi
+          }}"
+        >
+          {{ item.tinh }}, {{ item.huyen }}, {{ item.xa }}, {{ item.diaChi }}
+        </div>
       </td>
       <td>
         <div class="font-semibold">{{ item.sdt }}</div>
@@ -75,7 +85,6 @@
       <td>
         <div class="font-semibold">{{ item.email }}</div>
       </td>
-
 
       <td>
         <button
@@ -100,5 +109,17 @@
   [(visible)]="showDialog"
   [modal]="true"
 >
+  <app-khach-hang
+    *ngIf="!selectedItem"
+    [value]="selectedItem"
+  ></app-khach-hang>
 
+  <p-tabView *ngIf="selectedItem">
+    <p-tabPanel header="Thông tin khách hàng">
+      <app-khach-hang [value]="selectedItem"></app-khach-hang>
+    </p-tabPanel>
+    <p-tabPanel header="Đơn đặt hàng">
+      <app-order-list [idKhachHang]="selectedItem.id"></app-order-list>
+    </p-tabPanel>
+  </p-tabView>
 </p-dialog>

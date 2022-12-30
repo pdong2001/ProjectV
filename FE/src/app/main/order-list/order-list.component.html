@@ -7,14 +7,25 @@
         label="Thêm mới"
         icon="pi pi-plus"
         (click)="add()"
+        class="mt-3"
       ></button>
+    </div>
+    <div class="col-fixed">
+      <p-button
+        pRipple
+        styleClass="p-button-danger mt-3"
+        label="Xóa"
+        [badge]="selectedItems.length.toString()"
+        icon="pi pi-trash"
+        (click)="deleteDonBan()"
+      ></p-button>
     </div>
     <span class="p-float-label col-fixed">
       <p-calendar
         [showClear]="true"
         appendTo="body"
         placeholder="Không chọn"
-        dateFormat="dd/MM/yy"
+        dateFormat="dd/mm/yy"
         [(ngModel)]="start"
       ></p-calendar>
       <label for="">Từ ngày</label>
@@ -24,17 +35,47 @@
         [showClear]="true"
         appendTo="body"
         placeholder="Không chọn"
-        dateFormat="dd/MM/yy"
+        dateFormat="dd/mm/yy"
         [(ngModel)]="end"
       ></p-calendar>
       <label for="">Đến ngày</label>
     </span>
+    <span class="p-float-label col-fixed">
+      <p-dropdown
+        [options]="orderStatuses"
+        optionValue="value"
+        optionLabel="label"
+        [(ngModel)]="selectedStatus"
+        (onChange)="loadData()"
+        placeholder="Tất cả"
+        [showClear]="true"
+      ></p-dropdown>
+      <label for="">Trạng thái</label>
+    </span>
   </div>
 </p-toolbar>
 
-<p-table>
-  <ng-template pTemplate="header">
+<p-table
+  [value]="items"
+  dataKey="id"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 30]"
+  [globalFilterFields]="['khachHang.hoTen']"
+  [(selection)]="selectedItems"
+  [scrollable]="true"
+>
+  <ng-template pTemplate="footer">
     <tr>
+      <td colspan="100">
+        <div class="font-semibold text-center">
+          Số đơn hàng {{ items.length }}
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr class="white-space-nowrap">
       <th style="width: 4rem">
         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
       </th>
@@ -57,7 +98,7 @@
     pTemplate="body"
     let-item
   >
-    <tr>
+    <tr class="white-space-nowrap">
       <td>
         <p-tableCheckbox [value]="item"></p-tableCheckbox>
       </td>
@@ -67,18 +108,35 @@
         </div>
         {{ item.diaChi }}
       </td>
+      <td
+        style="min-width: 200px; max-width: 350px"
+        pTooltip="{{ item.tinh ?? item.khachHang.tinh }},
+      {{ item.huyen ?? item.khachHang.huyen }},
+      {{ item.xa ?? item.khachHang.xa }},
+      {{ item.diaChi ?? item.khachHang.diaChi }}"
+        class="text-overflow-ellipsis overflow-hidden"
+      >
+        {{ item.tinh ?? item.khachHang.tinh }},
+        {{ item.huyen ?? item.khachHang.huyen }},
+        {{ item.xa ?? item.khachHang.xa }},
+        {{ item.diaChi ?? item.khachHang.diaChi }}
+      </td>
       <td>
         <div
           class="font-senibold"
+          tooltipPosition="left"
           pTooltip="Số điện thoại"
         >
-          {{ item.khachHang?.sdt }}
+          <a href="tel:{{ item.khachHang?.sdt }}">{{ item.khachHang?.sdt }}</a>
         </div>
         <div
           class="font-senibold"
-          pTooltip="Huyện"
+          pTooltip="Địa chỉ Email"
+          tooltipPosition="left"
         >
-          {{ item.khachHang?.email }}
+          <a href="mailto:{{ item.khachHang?.email }}">{{
+            item.khachHang?.email
+          }}</a>
         </div>
       </td>
       <td>
@@ -86,14 +144,24 @@
           {{ OrderStatus.getDisplayName(item.status) }}
         </div>
         <div>
-          YC hủy : <strong> {{ item.yeuCauHuy ? "Có" : "Không" }}</strong>
+          YC hủy :
+          <p-tag
+            value="Không"
+            *ngIf="!item.yeuCauHuy"
+            severity="success"
+          ></p-tag>
+          <p-tag
+            value="Có"
+            *ngIf="item.yeuCauHuy"
+            severity="danger"
+          ></p-tag>
         </div>
       </td>
       <td>
         <button
           pButton
           pRipple
-          class="p-button-sm p-button-text"
+          class="p-button-sm p-button-text p-button-rounded"
           icon="pi pi-pencil"
           (click)="edit(item)"
         ></button>
@@ -114,7 +182,7 @@
   [resizable]="true"
   [maximizable]="true"
   appendTo="body"
-  header="Thông tin chi tiết sản phẩm"
+  header="Thông tin chi tiết đơn đặt hàng"
   [breakpoints]="[{ '576px': '100vw' }]"
   [(visible)]="formVisible"
   [modal]="true"
@@ -223,45 +291,20 @@
           icon="pi pi-plus"
           [disabled]="slSanPham.value == 0 || ddSanPham.value == undefined"
           (click)="addCT(ddSanPham.value, slSanPham.value)"
+          class="mt-3"
         ></button>
       </div>
     </div>
-    <div class="field">
-      <p-table
-        [value]="dsChiTiet"
-        dataKey="id"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Sản phẩm</th>
-            <th>Số lượng</th>
-            <th>Đơn giá</th>
-            <th>Tổng</th>
-            <th style="width: 4rem"></th>
-          </tr>
-        </ng-template>
-        <ng-template
-          pTemplate="body"
-          let-item
-        >
-          <tr>
-            <th>{{ item.sanPham?.sanPham?.tenSP }}</th>
-            <th>{{ item.soLuong | number }}</th>
-            <th>{{ item.donGia | currency : "VND" }}</th>
-            <th>{{ item.donGia * item.soLuong | currency : "VND" }}</th>
-            <th>
-              <div>
-                <button
-                  pButton
-                  icon="pi pi-trash"
-                  class="p-button-sm p-button-text p-button danger p-button-rounded"
-                ></button>
-              </div>
-            </th>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
+    <ng-container
+      *ngIf="
+        selectedItem &&
+        selectedItem.status != OrderStatus.Huy &&
+        selectedItem.status != OrderStatus.HoanThanh &&
+        selectedItem.status != OrderStatus.TuChoi
+      "
+      [ngTemplateOutlet]="updateStatusTemp"
+    ></ng-container>
+    <ng-container [ngTemplateOutlet]="ctTable"></ng-container>
   </form>
   <ng-template pTemplate="footer">
     <div class="flex mt-3 justify-content-end">
@@ -276,3 +319,144 @@
     </div>
   </ng-template>
 </p-dialog>
+<ng-template #ctTable>
+  <div class="field">
+    <p-table
+      [value]="selectedItem?.chiTiet ?? []"
+      dataKey="id"
+    >
+      <ng-template pTemplate="header">
+        <tr class="white-space-nowrap">
+          <th colspan="2">Sản phẩm</th>
+          <th>Số lượng</th>
+          <th>Đơn giá</th>
+          <th>Tổng</th>
+          <th style="width: 4rem"></th>
+        </tr>
+      </ng-template>
+      <ng-template
+        pTemplate="body"
+        let-item
+      >
+        <tr>
+          <td style="width: 5rem">
+            <p-image
+              [preview]="true"
+              [src]="item.sanPham?.anhCT | externalUrl"
+              appendTo="body"
+              height="50"
+              width="50"
+              [imageStyle]="{
+                'object-fit': 'cover'
+              }"
+            ></p-image>
+          </td>
+          <td>{{ item.sanPham?.sanPham?.tenSP }}</td>
+          <td>{{ item.soLuong | number }}</td>
+          <td>{{ item.donGia | currency : "VND" }}</td>
+          <td>{{ item.donGia * item.soLuong | currency : "VND" }}</td>
+          <td>
+            <div>
+              <button
+                type="button"
+                pButton
+                icon="pi pi-trash"
+                class="p-button-sm p-button-text p-button danger p-button-rounded"
+                *ngIf="
+                  !(
+                    selectedItem?.status == OrderStatus.ChapNhan ||
+                    selectedItem?.status == OrderStatus.DangGiao ||
+                    selectedItem?.status == OrderStatus.HoanThanh ||
+                    selectedItem?.status == OrderStatus.TuChoi ||
+                    selectedItem?.status == OrderStatus.Huy
+                  )
+                "
+                (click)="removeCT(item)"
+              >
+                {{ this.selectedItem?.status }}
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-template>
+<ng-template #updateStatusTemp>
+  <div
+    class="grid"
+    *ngIf="selectedItem"
+  >
+    <div class="font-semibold col-fixed">
+      <div class="p-2">Cập nhật trạng thái :</div>
+    </div>
+    <ng-container [ngSwitch]="selectedItem.status">
+      <ng-container *ngSwitchCase="OrderStatus.ChoXacNhan">
+        <div class="field col-fixed">
+          <button
+            type="button"
+            pButton
+            class="p-button-success"
+            (click)="updateStatus(OrderStatus.ChapNhan)"
+          >
+            Xác nhận
+          </button>
+        </div>
+        <div class="field col-fixed">
+          <button
+            type="button"
+            pButton
+            class="p-button-danger"
+            (click)="updateStatus(OrderStatus.TuChoi)"
+          >
+            Từ chối
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="OrderStatus.ChapNhan">
+        <div class="field col-fixed">
+          <button
+            type="button"
+            pButton
+            class="p-button-success"
+            (click)="updateStatus(OrderStatus.DangGiao)"
+          >
+            Đang giao
+          </button>
+        </div>
+        <div class="field col-fixed">
+          <button
+            type="button"
+            pButton
+            class="p-button-danger"
+            (click)="updateStatus(OrderStatus.Huy)"
+          >
+            Hủy
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="OrderStatus.DangGiao">
+        <div class="field col-fixed">
+          <button
+            type="button"
+            pButton
+            class="p-button-success"
+            (click)="updateStatus(OrderStatus.HoanThanh)"
+          >
+            Hoàn Tất
+          </button>
+        </div>
+        <div class="field col-fixed">
+          <button
+            type="button"
+            pButton
+            class="p-button-danger"
+            (click)="updateStatus(OrderStatus.Huy)"
+          >
+            Hủy
+          </button>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>

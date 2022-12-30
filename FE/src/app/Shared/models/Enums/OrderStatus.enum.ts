@@ -4,6 +4,7 @@ export enum OrderStatus {
   TuChoi = 2,
   DangGiao = 3,
   Huy = 5,
+  HoanThanh = 6,
 }
 export namespace OrderStatus {
   export function getDisplayName(value: OrderStatus) {
@@ -18,6 +19,8 @@ export namespace OrderStatus {
         return 'Đang giao';
       case OrderStatus.Huy:
         return 'Đã hủy';
+      case OrderStatus.HoanThanh:
+        return 'Hoàn thành';
       default:
         return '';
     }

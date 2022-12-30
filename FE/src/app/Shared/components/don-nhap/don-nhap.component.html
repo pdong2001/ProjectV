@@ -117,6 +117,7 @@
   <div class="field">
     <label for="anhCT">Ảnh</label>
     <p-fileUpload
+      *ngIf="!value"
       type="text"
       aria-label="anhCT"
       id="anhCT"
@@ -125,6 +126,15 @@
       chooseLabel="Chọn"
       cancelLabel="Hủy"
     ></p-fileUpload>
+    <div class="flex justify-content-center align-items-center">
+      <p-image
+        [src]="value.anhCT | externalUrl"
+        *ngIf="value"
+        [style]="{ width: '100%' }"
+        [preview]="true"
+        appendTo="body"
+      ></p-image>
+    </div>
   </div>
   <div class="field">
     <label for="">Mô tả</label>

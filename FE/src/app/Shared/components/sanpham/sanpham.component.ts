@@ -46,7 +46,6 @@ export class SanphamComponent implements OnInit {
     this.form = new FormGroup({
       tenSP: new FormControl('', [Validators.required]),
       anhSP: new FormControl(''),
-      uuDai: new FormControl(0, [Validators.required]),
       idLoaiSP: new FormControl(''),
       idThuongHieu: new FormControl(''),
       mota: new FormControl(''),

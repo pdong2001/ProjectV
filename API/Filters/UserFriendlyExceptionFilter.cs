@@ -53,9 +53,9 @@ namespace API.Filters
                 }
                 else
                 {
-                    context.Result = new ObjectResult(null)
+                    context.Result = new ObjectResult("Đã có lỗi xảy ra")
                     {
-                        StatusCode = 500
+                        StatusCode = 500,
                     };
                 }
             }

@@ -12,6 +12,7 @@ namespace Data.Models
         public string Code { get; set; }
         public int Gia { get; set; }
         public string MauSac { get; set; }
+        public double UuDai { get; set; }
         public double KichThuoc { get; set; }
         /// <summary>
         /// Đơn vị đo kích thước

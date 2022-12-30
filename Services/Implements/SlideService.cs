@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace Services.Implements
 {
-    public class SlideService : PagedCRUDService<int, Slide, SlideDto, CreateUpdateSlideDto, PageLookUpDto>, ISlideService
+    public class SlideService : PagedCRUDService<int, Setting, SettingDto, CreateUpdateSettingDto, PageLookUpDto>, ISlideService
     {
-        public SlideService(IRepository<int, Slide> repos, IMapper mapper) : base(repos, mapper)
+        public SlideService(IRepository<int, Setting> repos, IMapper mapper) : base(repos, mapper)
         {
         }
     }

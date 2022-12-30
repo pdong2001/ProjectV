@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces
 {
-    public interface ISlideService : IPagedCRUDService<int, Slide, SlideDto, CreateUpdateSlideDto, PageLookUpDto>
+    public interface ISlideService : IPagedCRUDService<int, Setting, SettingDto, CreateUpdateSettingDto, PageLookUpDto>
     {
     }
 }

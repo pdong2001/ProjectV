@@ -11,7 +11,6 @@ export class SanPhamDto {
 	mota: string | null = "";
 	tenSP: string | null = "";
 	anhSP: string | null = "";
-	uuDai: any = 0;
 	loaiSP: LoaiSP | null = null;
 	loaiSP: LoaiSPDto | null = null;
 	idLoaiSP: number | null = null;

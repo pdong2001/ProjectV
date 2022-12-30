@@ -58,6 +58,7 @@ export class ChiTietSPComponent implements OnInit {
       moTa: new FormControl(''),
       tskt: new FormControl(''),
       donVi: new FormControl('', [Validators.required]),
+      uuDai: new FormControl(0, [Validators.required]),
       anhCT: new FormControl(''),
       mauSac: new FormControl('', [Validators.required]),
       soLuong: new FormControl('', [

@@ -6,6 +6,9 @@ export class KhachHangDto {
 	hoTen: string | null = "";
 	email: string | null = "";
 	diaChi: string | null = "";
+	tinh: string | null = "";
+	huyen: string | null = "";
+	xa: string | null = "";
 	ngaySinh!: Date;
 	dsHoaDon: HoaDonBanDto[] | null = [];
 }

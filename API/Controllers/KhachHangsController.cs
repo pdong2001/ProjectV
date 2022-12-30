@@ -11,8 +11,17 @@ namespace API.Controllers
     [ApiController]
     public class KhachHangsController : PagedCRUDBaseController<int, KhachHang, KhachHangDto, CreateUpdateKhachHangDto, PageLookUpDto>
     {
+        private readonly IKhachHangService service;
+
         public KhachHangsController(IKhachHangService service) : base(service)
         {
+            this.service = service;
+        }
+
+        [HttpPost("check")]
+        public async Task<IActionResult> Search([FromBody] OneKhachHangLookUpDto request)
+        {
+            return Ok(await service.SearchAsync(request));
         }
     }
 }

@@ -6,6 +6,7 @@ export class SanPhamLookUpDto {
 	search: string | null = "";
 	columns: string | null = "";
 	hasDetailOnly: boolean = false;
+	chiDangGiamGia: boolean = false;
 	idLoaiSP: number | null = null;
 	idThuongHieu: number | null = null;
 }

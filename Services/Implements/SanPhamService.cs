@@ -53,7 +53,10 @@ namespace Services.Implements
             {
                 query = query.Where(s => s.IdThuongHieu == request.IdThuongHieu.Value);
             }
-
+            if (request.ChiDangGiamGia)
+            {
+                query = query.Where(s => s.ChiTietSP.Any(c => c.UuDai > 0));
+            }
             return base.BeforeSearch(query, request);
         }
     }

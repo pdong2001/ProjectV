@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using Services.Contracts.HoaDonBans;
 using Services.Interfaces;
+using Utils.Enums;
 
 namespace API.Controllers
 {
@@ -18,10 +19,22 @@ namespace API.Controllers
             this.service = service;
         }
 
-        [NonAction]
-        public override Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] CreateUpdateHoaDonBanDto request)
+        [HttpPost("search")]
+        public override Task<IActionResult> SearchAsync([FromBody] HoaDonBanLookUpDto request)
         {
-            return base.UpdateAsync(id, request);
+            return base.SearchAsync(request);
+        }
+
+        [HttpPut("status/{id}")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] OrderStatus status)
+        {
+            return Ok(await service.UpdateStatusAsync(id, status));
+        }
+
+        [HttpPost("cancel/{id}")]
+        public async Task<IActionResult> RequestCancel(int id)
+        {
+            return Ok(await service.RequestCancelAsync(id));
         }
 
         [HttpPost("doanh-so")]

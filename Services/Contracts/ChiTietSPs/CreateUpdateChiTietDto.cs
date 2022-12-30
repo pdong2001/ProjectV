@@ -20,6 +20,7 @@ namespace Services.Contracts.ChiTietSPs
         public string DVT { get; set; }
         public string? MoTa { get; set; }
         public string? AnhCT { get; set; }
+        public double UuDai { get; set; }
         /// <summary>
         /// Thông số kỹ thuật
         /// </summary>

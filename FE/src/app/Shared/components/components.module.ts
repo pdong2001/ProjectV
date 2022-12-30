@@ -84,6 +84,7 @@ import { DonNhapComponent } from './don-nhap/don-nhap.component';
     ThuongHieuComponent,
     DSChiTietSPComponent,
     DonNhapComponent,
+    KhachHangComponent
   ],
 })
 export class ComponentsModule {}

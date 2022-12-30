@@ -13,5 +13,7 @@ namespace Services.Contracts.SanPhams
         public int? IdLoaiSP { get; set; }
 
         public bool HasDetailOnly { get; set; }
+
+        public bool ChiDangGiamGia { get; set; }
     }
 }

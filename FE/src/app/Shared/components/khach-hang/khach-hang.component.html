@@ -1,32 +1,72 @@
-<form action="">
+<form
+  class="p-fluid"
+  [formGroup]="form"
+  (submit)="submitForm()"
+>
   <div class="field">
-    <label for="tenKH">Tên khách hàng</label>
+    <label for="hoTen">Tên khách hàng</label>
     <input
       type="text"
-      name="tenKH"
-      id="tenKH"
+      name="hoTen"
+      id="hoTen"
       pInputText
-      formControlName="tenKH"
+      formControlName="hoTen"
     />
   </div>
   <div class="field">
-    <label for="ngaysinh">Ngày sinh</label>
-    <input
-      type="text"
-      name="ngaysinh"
-      id="ngaysinh"
-      pInputText
-      formControlName="ngaysinh"
-    />
+    <label for="ngaySinh">Ngày sinh</label>
+    <p-calendar
+      name="ngaySinh"
+      id="ngaySinh"
+      formControlName="ngaySinh"
+      dateFormat="dd/mm/yy"
+    ></p-calendar>
+  </div>
+  <div class="grid">
+    <div class="field col-12">
+      <label for="">Tỉnh/Thành Phố</label>
+      <p-dropdown
+        [options]="provinces"
+        optionValue="name"
+        optionLabel="name"
+        formControlName="tinh"
+        (ngModelChange)="findAddress($event, 1)"
+        [filter]="true"
+        filterBy="name"
+      ></p-dropdown>
+    </div>
+    <div class="field col">
+      <label for="">Quận/Huyện</label>
+      <p-dropdown
+        [options]="selectedProvince?.districts ?? []"
+        optionValue="name"
+        optionLabel="name"
+        formControlName="huyen"
+        (ngModelChange)="findAddress($event, 2)"
+        [filter]="true"
+        filterBy="name"
+      ></p-dropdown>
+    </div>
+    <div class="field col">
+      <label for="">Phường/Xã</label>
+      <p-dropdown
+        [options]="selectedDistrict?.wards ?? []"
+        optionValue="name"
+        optionLabel="name"
+        formControlName="xa"
+        [filter]="true"
+        filterBy="name"
+      ></p-dropdown>
+    </div>
   </div>
   <div class="field">
-    <label for="diachi">Địa chỉ</label>
+    <label for="diaChi">Địa chỉ</label>
     <input
       type="text"
-      name="diachi"
-      id="diachi"
+      name="diaChi"
+      id="diaChi"
       pInputText
-      formControlName="diachi"
+      formControlName="diaChi"
     />
   </div>
   <div class="field">
@@ -49,7 +89,6 @@
       formControlName="email"
     />
   </div>
-
 
   <div class="flex mt-3 justify-content-end">
     <button

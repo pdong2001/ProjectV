@@ -6,15 +6,15 @@ import { HttpService } from './http.service';
 import { PagedCRUDService } from './page-crud.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class KhachHangService extends PagedCRUDService<
-number,
-KhachHangDto,
-CreateUpdateKhachHangDto,
-PageLookUpDto
+  number,
+  KhachHangDto,
+  CreateUpdateKhachHangDto,
+  PageLookUpDto
 > {
-constructor(http: HttpService) {
-  super(http, 'KhachHangs');
-}
+  constructor(http: HttpService) {
+    super(http, 'KhachHangs');
+  }
 }

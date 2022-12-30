@@ -58,6 +58,11 @@ namespace Services.Implements
                 {
                     s.SanPham.SoLuong -= s.SoLuong;
                 });
+                if (sanPham.Any(s => s.SoLuong < 0))
+                {
+                    throw new UserFriendlyException("Số lượng sản phẩm trong kho không đủ");
+                }
+                _context.ChiTietSP.AttachRange(sanPham.Select(s => s.SanPham));
             }
             else if (entity.Status is (OrderStatus.ChapNhan or OrderStatus.DangGiao) && status is OrderStatus.Huy)
             {
@@ -68,7 +73,9 @@ namespace Services.Implements
                 {
                     s.SanPham.SoLuong += s.SoLuong;
                 });
+                _context.ChiTietSP.AttachRange(sanPham.Select(s => s.SanPham));
             }
+            await _context.SaveChangesAsync();
             entity.Status = status;
             var result = await repos.UpdateAsync(entity);
             if (result == null)
@@ -109,6 +116,7 @@ namespace Services.Implements
             var response = await base.CreateAsync(input);
             if (response.Success && input.ChiTiet.Any())
             {
+                input.ChiTiet.ForEach(ct => ct.HoaDonId = response.Data);
                 if (await AddCTAsync(input.ChiTiet) == 0)
                 {
                     await transaction.RollbackAsync();
@@ -161,11 +169,22 @@ namespace Services.Implements
 
         protected override IQueryable<HoaDonBan> BeforeSearch(IQueryable<HoaDonBan> query, HoaDonBanLookUpDto request)
         {
+            if (request.End.HasValue)
+            {
+                request.End = request.End.Value.AddDays(1).Date;
+            }
             query = query
+                .Include(e => e.ChiTiet)
+                .ThenInclude(c => c.SanPham.SanPham)
                 .Include(e => e.KhachHang)
                 .Where(e => !request.IdKhachHang.HasValue || request.IdKhachHang.Value == e.IdKhachHang)
                 .Where(e => !request.Start.HasValue || request.Start.Value <= e.CreatedAt)
                 .Where(e => !request.End.HasValue || request.End.Value >= e.CreatedAt);
+
+            if (request.Status.HasValue)
+            {
+                query = query.Where(e => e.Status == request.Status);
+            }
 
             return base.BeforeSearch(query, request);
         }

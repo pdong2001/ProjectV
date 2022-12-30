@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Services.Contracts.Slides
 {
-    public class CreateUpdateSlideDto
+    public class SettingDto : Setting
     {
-        public string TenAnh { get; set; }
+        public new IEnumerable<string> DSAnh { get; set; }
     }
 }

@@ -51,7 +51,7 @@ export class ImportListComponent implements OnInit {
     private confirmation: ConfirmationService,
     breadCrumb: BreadCrumbService
   ) {
-    breadCrumb.setPageTitle('Quản lý chi tiết sản phẩm');
+    breadCrumb.setPageTitle('Quản lý nhâp hàng');
     this.btnItems = [{ label: 'Xóa đã chọn', icon: 'fa-regular fa-trash-can' }];
   }
   ngAfterViewInit(): void {
@@ -99,7 +99,7 @@ export class ImportListComponent implements OnInit {
     this.showDialog = true;
   }
 
-  public showEdit(item: DonNhapDto) {
+  public showDetail(item: DonNhapDto) {
     this.selectedItem = item;
     this.showDialog = true;
   }

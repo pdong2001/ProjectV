@@ -8,4 +8,5 @@ export const RouteMaps = {
   orders: 'don-ban',
   orderStatistic: 'thong-ke-doanh-so',
   images: 'hinh-anh',
+  settings: 'cai-dat-website',
 };

@@ -32,12 +32,25 @@ namespace API
             CreateMap<CreateUpdateKhachHangDto, KhachHang>();
             CreateMap<SanPham, SanPhamDto>();
             CreateMap<CreateUpdateSanPhamDto, SanPham>();
-            CreateMap<Slide, SlideDto>();
-            CreateMap<CreateUpdateSlideDto, Slide>();
+            CreateMap<Setting, SettingDto>()
+                .ForMember(s => s.DSAnh, o =>
+                {
+                    o.Condition(s => !string.IsNullOrWhiteSpace(s.DSAnh));
+                    o.MapFrom(s => s.DSAnh.Split(';', StringSplitOptions.RemoveEmptyEntries));
+                });
+
+            CreateMap<CreateUpdateSettingDto, Setting>()
+                .ForMember(s => s.DSAnh, o =>
+                {
+                    o.Condition(s => s.DSAnh != null && s.DSAnh.Count > 0);
+                    o.MapFrom(s => string.Join(";", s.DSAnh));
+                });
             CreateMap<ThuongHieu, ThuongHieuDto>();
             CreateMap<CreateUpdateThuongHieuDto, ThuongHieu>();
             CreateMap<CreateDonNhapDto, DonNhap>();
             CreateMap<DonNhap, DonNhapDto>();
+            CreateMap<CreateUpdateCTDonBanDto, CTDonBan>();
+            CreateMap<CTDonBan, CTDonBanDto>();
 
         }
     }

@@ -29,6 +29,8 @@ import { ImportListComponent } from './import-list/import-list.component';
 import { MainRoutingModule } from './main-routing.module';
 import { OrderListComponent } from './order-list/order-list.component';
 import { ThongKeDoanhSoComponent } from './thong-ke-doanh-so/thong-ke-doanh-so.component';
+import { SettingListComponent } from './setting-list/setting-list.component';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { ThongKeDoanhSoComponent } from './thong-ke-doanh-so/thong-ke-doanh-so.c
     OrderListComponent,
     ThongKeDoanhSoComponent,
     ImagesComponent,
+    SettingListComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +67,7 @@ import { ThongKeDoanhSoComponent } from './thong-ke-doanh-so/thong-ke-doanh-so.c
     BadgeModule,
     DataViewModule,
     CardModule,
+    TagModule
   ],
 })
 export class MainModule {}

@@ -8,7 +8,6 @@ namespace Data.Models
     {
         public string TenSP { get; set; }
         public string AnhSP { get; set; }
-        public double UuDai { get; set; }
 
         [ForeignKey(nameof(LoaiSP))]
         public int? IdLoaiSP { get; set; }

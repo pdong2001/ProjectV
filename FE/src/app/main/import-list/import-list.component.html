@@ -123,9 +123,9 @@
         <button
           pButton
           pRipple
-          icon="fa-regular fa-pen-to-square"
+          icon="fa-solid fa-info"
           class="p-button-sm p-button-text p-button-info p-button-rounded"
-          (click)="showEdit(item)"
+          (click)="showDetail(item)"
         ></button>
         <button
           pButton
@@ -144,7 +144,7 @@
   [resizable]="true"
   [maximizable]="true"
   appendTo="body"
-  header="Thông tin chi tiết sản phẩm"
+  header="Thông tin phiếu nhập"
   [breakpoints]="[{ '576px': '100vw' }]"
   [(visible)]="showDialog"
   [modal]="true"
@@ -160,6 +160,7 @@
         pButton
         pRipple
         label="Lưu"
+        *ngIf="!selectedItem"
         class="p-button-outlined p-button-success w-auto"
         icon="fa-regular fa-floppy-disk"
         for="dn_form_submit"

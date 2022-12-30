@@ -11,5 +11,6 @@ namespace Services.Interfaces
 {
     public interface IKhachHangService : IPagedCRUDService<int, KhachHang, KhachHangDto, CreateUpdateKhachHangDto, PageLookUpDto>
     {
+        Task<ServiceResponse<int>> SearchAsync(OneKhachHangLookUpDto input);
     }
 }

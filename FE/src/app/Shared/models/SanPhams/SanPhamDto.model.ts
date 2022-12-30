@@ -8,7 +8,6 @@ export class SanPhamDto {
 	mota: string | null = "";
 	tenSP: string | null = "";
 	anhSP: string | null = "";
-	uuDai: any = 0;
 	loaiSP: LoaiSPDto | null = null;
 	idLoaiSP: number | null = null;
 	idThuongHieu: number | null = null;
