@@ -9,9 +9,9 @@ namespace Data.Models
 {
     public class ChiTietSP : Entity<int>
     {
-        public string Code { get; set; }
+        public string Ten { get; set; }
+        public string? Code { get; set; }
         public int Gia { get; set; }
-        public string MauSac { get; set; }
         public double UuDai { get; set; }
         public double KichThuoc { get; set; }
         /// <summary>
@@ -25,7 +25,6 @@ namespace Data.Models
         /// <summary>
         /// Thông số kỹ thuật
         /// </summary>
-        public string TSKT { get; set; }
 
         [ForeignKey(nameof(SanPham))]
         public int IdSanPham { get; set; }

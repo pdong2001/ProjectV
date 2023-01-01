@@ -261,20 +261,27 @@ export class OrderListComponent implements OnInit {
         };
       });
       if (id) {
+        if (
+          this.selectedItem &&
+          this.selectedItem.status >= OrderStatus.DangGiao
+        ) {
+          this.formVisible = false;
+          return;
+        }
         resposne = this.donBanService.update(id, data);
       } else {
         resposne = this.donBanService.create(data);
       }
-      resposne.subscribe({
+      resposne?.subscribe({
         next: (res) => {
           if (res.success && res.data) {
             this.loadData();
             this.message.add({
               severity: 'success',
-              detail: 'Thêm đơn đặt hàng thành công.',
+              detail: 'Cập nhật đơn đặt hàng thành công.',
             });
 
-            this.showDialog = false;
+            this.formVisible = false;
           } else {
             this.message.add({
               severity: 'warning',

@@ -186,6 +186,7 @@ export class DSSanPhamComponent implements OnInit {
                   severity: 'success',
                   detail: 'Thêm sản phẩm thành công.',
                 });
+                this.showDialog = false;
               }
             }
           });

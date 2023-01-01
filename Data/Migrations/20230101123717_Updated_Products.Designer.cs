@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230101123717_Updated_Products")]
+    partial class Updated_Products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,10 +92,6 @@ namespace Data.Migrations
 
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
-
-                    b.Property<string>("Ten")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("UuDai")
                         .HasColumnType("float");
@@ -187,13 +185,17 @@ namespace Data.Migrations
                     b.Property<double>("KichThuoc")
                         .HasColumnType("float");
 
+                    b.Property<string>("MauSac")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MoTa")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
-                    b.Property<string>("Ten")
+                    b.Property<string>("TSKT")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -530,11 +532,11 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("78f5610c-77be-45a7-be07-effb2bab65ff"),
-                            CreatedAt = new DateTime(2023, 1, 1, 20, 41, 1, 949, DateTimeKind.Local).AddTicks(9996),
+                            CreatedAt = new DateTime(2023, 1, 1, 19, 37, 16, 820, DateTimeKind.Local).AddTicks(6467),
                             CreatedBy = "Seeding",
                             Email = "admin@test.tt",
                             FullName = "Quản trị viên",
-                            Password = "$2a$11$ADuxN8cheQOGkohlHxiM0O6HLkc7qkHXLz8znWzMQdB/VyAaNENDq",
+                            Password = "$2a$11$MI4DQOwYeyvc7WD3TaeXmeip2KBzRB3IWqeetM9qdeUCMJBoAwiJS",
                             PhoneNumber = "0987654321",
                             Roles = "_ad",
                             UserName = "admin"

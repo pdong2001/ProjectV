@@ -36,6 +36,7 @@ namespace Services.Implements
         {
             var entity = await repos.GetAsync(id);
             if (entity == null) throw new UserFriendlyException();
+            input.ChiTiet = new List<CreateUpdateCTDonBanDto>();
             if (entity.Status >= OrderStatus.DangGiao) throw new UserFriendlyException();
             _mapper.Map(input, entity);
             if (entity.ChiTiet != null && entity.ChiTiet.Count > 0) await AddCTAsync(input.ChiTiet);
@@ -51,7 +52,8 @@ namespace Services.Implements
             if (entity.Status is (OrderStatus.ChoXacNhan or OrderStatus.TuChoi) &&
                 entity.Status is (OrderStatus.HoanThanh or OrderStatus.ChapNhan or OrderStatus.DangGiao))
             {
-                var sanPham = await _ctDonBan.GetQueryable().Where(e => e.HoaDonId == id)
+                var sanPham = await _ctDonBan.GetQueryable()
+                    .Where(e => e.HoaDonId == id && e.SanPham.Code != null && e.SanPham.Code.Length > 0)
                     .Select(e => new { e.SoLuong, e.SanPham })
                     .ToListAsync();
                 sanPham.ForEach(s =>

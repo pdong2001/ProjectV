@@ -74,14 +74,13 @@ namespace Services.Implements
                 {
                     SoLuong = input.SoLuong,
                     IdSanPham = input.IdSanPham,
-                    MauSac = input.MauSac,
                     Code = input.Code,
                     KichThuoc = input.KichThuoc,
-                    TSKT = input.TSKT,
                     DonVi = input.DonVi,
                     DVT = input.DVT,
                     AnhCT = input.AnhCT,
                     Gia = input.Gia,
+                    Ten = input.Ten,
                     MoTa = input.MoTa,
                 });
             }

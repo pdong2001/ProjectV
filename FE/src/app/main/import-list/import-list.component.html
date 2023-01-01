@@ -29,12 +29,11 @@
     'anhCT',
     'code',
     'gia',
-    'mauSac',
+    'ten',
     'kichThuoc',
     'donVi',
     'soLuong',
     'moTa',
-    'tskt',
     'dvt'
   ]"
   dataKey="id"
@@ -56,8 +55,8 @@
       <th pSortableColumn="code">
         Mã SKU <p-sortIcon field="code"></p-sortIcon>
       </th>
-      <th pSortableColumn="mauSac">
-        Màu sắc <p-sortIcon field="mauSac"></p-sortIcon>
+      <th pSortableColumn="ten">
+        Tên <p-sortIcon field="ten"></p-sortIcon>
       </th>
       <th pSortableColumn="gia">
         Giá nhập <p-sortIcon field="gia"></p-sortIcon>
@@ -90,7 +89,7 @@
         <div class="font-semibold">{{ item.code }}</div>
       </td>
       <td>
-        <div class="font-semibold">{{ item.mauSac }}</div>
+        <div class="font-semibold">{{ item.ten }}</div>
       </td>
       <td>
         <div class="font-semibold">{{ item.gia | number }}đ</div>

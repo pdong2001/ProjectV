@@ -30,17 +30,21 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var blobs = await _context.Blobs.Select(b => new BlobDto()
-            {
-                ContentType = b.ContentType,
-                Name = b.Name,
-                Id = b.Id,
-                FileName = b.FileName,
-                Folder = b.Folder,
-            }).ToListAsync();
+            var blobs = await _context.Blobs
+                .ToListAsync();
+            var result = blobs
+                .DistinctBy(b => Convert.ToBase64String(b.Content))
+                .Select(b => new BlobDto()
+                {
+                    ContentType = b.ContentType,
+                    Name = b.Name,
+                    Id = b.Id,
+                    FileName = b.FileName,
+                    Folder = b.Folder,
+                }).ToList();
             return Ok(new ServiceResponse<List<BlobDto>>()
             {
-                Data = blobs,
+                Data = result,
                 Success = true,
             });
         }

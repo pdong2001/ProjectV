@@ -20,6 +20,7 @@ namespace Services.Contracts.DonNhaps
         /// <summary>
         /// Đơn vị đo kích thước
         /// </summary>
+        public string Ten { get; set; }
         public string DonVi { get; set; }
         public int SoLuong { get; set; }
         public string DVT { get; set; }

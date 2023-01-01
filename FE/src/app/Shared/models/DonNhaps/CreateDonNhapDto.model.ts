@@ -7,9 +7,8 @@ export class CreateDonNhapDto {
 	dvt: string | null = "";
 	code: string | null = "";
 	moTa: string | null = "";
-	tskt: string | null = "";
 	donVi: string | null = "";
 	anhCT: string | null = "";
-	mauSac: string | null = "";
+	ten: string | null = "";
 	kichThuoc: any = 0;
 }

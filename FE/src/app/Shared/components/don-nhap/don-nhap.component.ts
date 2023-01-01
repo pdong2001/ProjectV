@@ -45,10 +45,9 @@ export class DonNhapComponent implements OnInit {
       gia: new FormControl(0, [Validators.required]),
       code: new FormControl(''),
       moTa: new FormControl(''),
-      tskt: new FormControl(''),
       donVi: new FormControl('', [Validators.required]),
       anhCT: new FormControl(''),
-      mauSac: new FormControl('', [Validators.required]),
+      ten: new FormControl('', [Validators.required]),
       soLuong: new FormControl('', [
         Validators.required,
         Validators.pattern(/\d+/),

@@ -10,7 +10,7 @@
   />
   <div class="grid">
     <div
-      class="field col"
+      class="field col hidden"
       style="min-width: 200px"
     >
       <label for="code">Mã Code</label>
@@ -44,14 +44,14 @@
       class="field col"
       style="min-width: 200px"
     >
-      <label for="mauSac">Màu sắc</label>
+      <label for="ten">Tên</label>
       <div class="p-inputgroup">
         <input
           type="text"
-          aria-label="mauSac"
-          id="mauSac"
+          aria-label="ten"
+          id="ten"
           pInputText
-          formControlName="mauSac"
+          formControlName="ten"
         />
       </div>
     </div>
@@ -80,7 +80,8 @@
       </div>
     </div>
     <div
-      class="field col hidden"
+      *ngIf="false"
+      class="field col"
       style="min-width: 200px"
     >
       <label for="soLuong">Số lượng</label>
@@ -102,16 +103,20 @@
         />
       </div>
     </div>
-  </div>
-  <div class="field">
-    <label for="tskt">Thông số kỹ thuật</label>
-    <input
-      type="text"
-      aria-label="tskt"
-      id="tskt"
-      pInputText
-      formControlName="tskt"
-    />
+    <div
+      class="field col"
+      style="min-width: 200px"
+    >
+      <label for="soLuong">Đơn vị tính</label>
+      <input
+        class="p-inputgroup-addon"
+        type="text"
+        aria-label="dvt"
+        id="dvt"
+        pInputText
+        formControlName="dvt"
+      />
+    </div>
   </div>
   <div class="field">
     <label for="anhCT">Ảnh</label>
@@ -124,13 +129,5 @@
       chooseLabel="Chọn"
       cancelLabel="Hủy"
     ></p-fileUpload>
-  </div>
-  <div class="field">
-    <label for="">Mô tả</label>
-    <p-editor
-      [style]="{ height: '400px' }"
-      formControlName="moTa"
-    >
-    </p-editor>
   </div>
 </form>

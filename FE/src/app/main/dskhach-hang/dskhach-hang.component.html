@@ -112,11 +112,15 @@
   <app-khach-hang
     *ngIf="!selectedItem"
     [value]="selectedItem"
+    (onSubmit)="save($event)"
   ></app-khach-hang>
 
   <p-tabView *ngIf="selectedItem">
     <p-tabPanel header="Thông tin khách hàng">
-      <app-khach-hang [value]="selectedItem"></app-khach-hang>
+      <app-khach-hang
+        (onSubmit)="save($event)"
+        [value]="selectedItem"
+      ></app-khach-hang>
     </p-tabPanel>
     <p-tabPanel header="Đơn đặt hàng">
       <app-order-list [idKhachHang]="selectedItem.id"></app-order-list>

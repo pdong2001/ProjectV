@@ -55,14 +55,11 @@ export class ChiTietSPComponent implements OnInit {
     this.form = new FormGroup({
       gia: new FormControl(0, [Validators.required]),
       code: new FormControl(''),
-      moTa: new FormControl(''),
-      tskt: new FormControl(''),
       donVi: new FormControl('', [Validators.required]),
       uuDai: new FormControl(0, [Validators.required]),
       anhCT: new FormControl(''),
-      mauSac: new FormControl('', [Validators.required]),
+      ten: new FormControl('', [Validators.required]),
       soLuong: new FormControl('', [
-        Validators.required,
         Validators.pattern(/\d+/),
         Validators.min(0),
       ]),
@@ -77,8 +74,13 @@ export class ChiTietSPComponent implements OnInit {
   ngOnInit(): void {}
 
   public submit() {
+    console.log(this.form);
     if (this.form.valid) {
-      const payload: CreateUpdateChiTietDto = { ...this.form.value };
+      const payload: CreateUpdateChiTietDto = {
+        ...this.form.value,
+        code: this.value?.code,
+        soLuong: this.value?.soLuong,
+      };
       if (this.fileUpload.files.length) {
         this.blobService.upload(this.fileUpload.files).subscribe({
           next: (res) => {
@@ -92,6 +94,10 @@ export class ChiTietSPComponent implements OnInit {
           },
         });
       } else this.onSubmit.emit(payload);
+    } else {
+      for (let key in this.form.controls) {
+        this.form.controls[key].markAsDirty();
+      }
     }
   }
 }

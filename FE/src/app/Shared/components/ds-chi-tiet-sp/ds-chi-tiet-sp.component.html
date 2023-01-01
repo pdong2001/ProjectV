@@ -1,10 +1,17 @@
 <p-toolbar>
   <ng-template pTemplate="left">
     <p-button
+      label="Thêm mới"
+      (onClick)="showAdd()"
+      icon="pi pi-plus"
+      styleClass="mr-3"
+    ></p-button>
+    <p-button
       label="Xóa đã chọn"
       (onClick)="showDelete()"
       [disabled]="selectedItems.length ? false : true"
       [badge]="selectedItems.length.toString()"
+      icon="pi pi-trash"
       styleClass="p-button-danger"
     ></p-button>
   </ng-template>
@@ -29,12 +36,10 @@
     'anhCT',
     'code',
     'gia',
-    'mauSac',
+    'ten',
     'kichThuoc',
     'donVi',
     'soLuong',
-    'moTa',
-    'tskt',
     'dvt'
   ]"
   dataKey="id"
@@ -59,9 +64,7 @@
       <th pSortableColumn="code">
         Code <p-sortIcon field="code"></p-sortIcon>
       </th>
-      <th pSortableColumn="mauSac">
-        Màu sắc <p-sortIcon field="mauSac"></p-sortIcon>
-      </th>
+      <th pSortableColumn="ten">Tên <p-sortIcon field="ten"></p-sortIcon></th>
       <th pSortableColumn="gia">
         Giá bán <p-sortIcon field="gia"></p-sortIcon>
       </th>
@@ -102,7 +105,7 @@
         <div class="font-semibold">{{ item.code }}</div>
       </td>
       <td>
-        <div class="font-semibold">{{ item.mauSac }}</div>
+        <div class="font-semibold">{{ item.ten }}</div>
       </td>
       <td>
         <div class="font-semibold">{{ item.gia | number }}đ</div>
@@ -115,7 +118,15 @@
         <div class="font-semibold">{{ item.kichThuoc }} {{ item.donVi }}</div>
       </td>
       <td>
-        <div class="font-semibold">{{ item.soLuong }} {{ item.dvt }}</div>
+        <div class="font-semibold">
+          <ng-container *ngIf="item.code; else infinity">
+            {{ item.soLuong | number }}
+          </ng-container>
+          <ng-template #infinity>
+            <i class="fa-solid fa-infinity"></i>
+          </ng-template>
+          {{ item.dvt }}
+        </div>
       </td>
 
       <td>

@@ -62,7 +62,7 @@ export class AuthService {
       if (data.token) {
         localStorage.setItem(
           StorageKeys.EXPIRES_KEY,
-          JSON.stringify(data.expires.getTime())
+          JSON.stringify(new Date(data.expires).getTime())
         );
         localStorage.setItem(StorageKeys.TOKEN_KEY, data.token);
         if (data.user?.roles) {

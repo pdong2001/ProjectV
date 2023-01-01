@@ -77,6 +77,7 @@ export class KhachHangComponent implements OnInit {
   }
 
   public submitForm() {
+    console.log(this.form);
     if (this.form.valid) {
       const payload = { ...this.form.value };
       this.onSubmit.emit(payload);

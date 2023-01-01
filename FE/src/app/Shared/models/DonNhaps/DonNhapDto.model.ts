@@ -8,10 +8,9 @@ export interface DonNhapDto {
   dvt: string | undefined;
   code: string | undefined;
   moTa: string | undefined;
-  tskt: string | undefined;
   donVi: string | undefined;
   anhCT: string | undefined;
-  mauSac: string | undefined;
+  ten: string | undefined;
   kichThuoc: any;
   createdAt: Date;
   sanPham: SanPhamDto | undefined;
