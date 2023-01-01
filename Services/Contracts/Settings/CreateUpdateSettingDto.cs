@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Contracts.Slides
+namespace Services.Contracts.Settings
 {
     public class CreateUpdateSettingDto
     {
-        public ICollection<string> DSAnh { get; set; }
+        public ICollection<string>? DSAnh { get; set; }
         public int Type { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
+        public string? Title { get; set; }
+        public string? Content { get; set; }
     }
 }

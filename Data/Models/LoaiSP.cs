@@ -6,5 +6,7 @@ namespace Data.Models
         public string TenLSP { get; set; }
 
         public string Anh { get; set; }
+
+        public ICollection<SanPham> DSSanPham { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-import { CreateUpdateChiTietDto } from '../ChiTietSPs/CreateUpdateChiTietDto.model';
+import { CreateUpdateCTDonBanDto } from './CreateUpdateCTDonBanDto.model';
 
 export interface CreateUpdateHoaDonBanDto {
   idKhachHang: number;
@@ -6,5 +6,5 @@ export interface CreateUpdateHoaDonBanDto {
   tinh?: string | null;
   huyen?: string | null;
   diaChi?: string | null;
-  chiTiet?: CreateUpdateChiTietDto[] | null;
+  chiTiet?: CreateUpdateCTDonBanDto[] | null;
 }

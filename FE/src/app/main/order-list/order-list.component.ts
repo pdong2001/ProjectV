@@ -51,6 +51,16 @@ export class OrderListComponent implements OnInit {
   public tableOffsetTop: number = 0;
   public selectedItems: HoaDonBanDto[] = [];
   public selectedItem: HoaDonBanDto | undefined;
+  public get status() {
+    return this.selectedItem?.status;
+  }
+  public get isReadonly() {
+    return (
+      this.status == OrderStatus.DangGiao ||
+      this.status == OrderStatus.HoanThanh ||
+      this.status == OrderStatus.Huy
+    );
+  }
   public btnItems: MenuItem[];
   public loading: boolean = false;
   public showDialog: boolean = false;
@@ -62,6 +72,7 @@ export class OrderListComponent implements OnInit {
   }
   public set selectedKH(value: KhachHangDto | undefined) {
     this._selectedKH = value;
+    if (value) this.form.patchValue(value);
   }
   public orderStatuses: any[];
   public dsChiTiet: CTDonBanDto[] = [];
@@ -130,7 +141,6 @@ export class OrderListComponent implements OnInit {
         hoaDon: this.selectedItem,
         id: 0,
       });
-      console.log(this.dsChiTiet);
     }
   }
 
@@ -223,49 +233,62 @@ export class OrderListComponent implements OnInit {
 
   public add() {
     this.selectedItem = undefined;
+    this.selectedKH = undefined;
     this.form.reset();
+    this.dsChiTiet = [];
     this.formVisible = true;
   }
 
   public edit(item: HoaDonBanDto) {
     this.selectedItem = item;
     this.selectedKH = this.dsKhachHang.find((kh) => item.idKhachHang == kh.id);
-    console.log(this.selectedKH);
     this.form.patchValue(item);
+    this.dsChiTiet = item.chiTiet ?? [];
     this.formVisible = true;
   }
 
   public save(data: CreateUpdateHoaDonBanDto) {
     let resposne: Observable<ServiceResponse<HoaDonBanDto>>;
     const id = this.selectedItem?.id;
-    if (id) {
-      resposne = this.donBanService.update(id, data);
+    if (this.selectedKH) {
+      data.idKhachHang = this.selectedKH?.id;
+      data.chiTiet = this.dsChiTiet.map((ct) => {
+        return {
+          sanPhamId: ct.sanPhamId,
+          soLuong: ct.soLuong,
+          donGia: ct.donGia,
+          hoaDonId: 0,
+        };
+      });
+      if (id) {
+        resposne = this.donBanService.update(id, data);
+      } else {
+        resposne = this.donBanService.create(data);
+      }
+      resposne.subscribe({
+        next: (res) => {
+          if (res.success && res.data) {
+            this.loadData();
+            this.message.add({
+              severity: 'success',
+              detail: 'Thêm đơn đặt hàng thành công.',
+            });
+
+            this.showDialog = false;
+          } else {
+            this.message.add({
+              severity: 'warning',
+              detail: 'Lưu thay đổi thất bại',
+            });
+          }
+        },
+      });
     } else {
-      resposne = this.donBanService.create(data);
+      this.message.add({
+        detail: 'Hãy chọn một khách hàng',
+        severity: 'error',
+      });
     }
-
-    resposne.subscribe({
-      next: (res) => {
-        if (res.success && res.data) {
-          this.donBanService.get(res.data.id).subscribe((res) => {
-            if (res.data && res.success) {
-              this.loadData();
-              this.message.add({
-                severity: 'success',
-                detail: 'Thêm chi tiết sản phẩm thành công.',
-              });
-
-              this.showDialog = false;
-            }
-          });
-        } else {
-          this.message.add({
-            severity: 'warning',
-            detail: 'Lưu thay đổi thất bại',
-          });
-        }
-      },
-    });
   }
   public updateStatus(status: OrderStatus) {
     if (this.selectedItem) {
@@ -320,6 +343,26 @@ export class OrderListComponent implements OnInit {
       }
       this.confirmation.confirm({
         message: `Bạn có chắc chắn muốn xóa ${this.selectedItems.length} đơn hàng`,
+        accept: () => {
+          this.donBanService
+            .deleteMany(this.selectedItems.map((i) => i.id))
+            .subscribe({
+              next: (res) => {
+                if (res.success) {
+                  this.loadData();
+                  this.message.add({
+                    detail: 'Xoá thành công',
+                    severity: 'success',
+                  });
+                } else {
+                  this.message.add({
+                    detail: 'Xóa đơn hàng thất bại',
+                    severity: 'error',
+                  });
+                }
+              },
+            });
+        },
       });
     }
   }

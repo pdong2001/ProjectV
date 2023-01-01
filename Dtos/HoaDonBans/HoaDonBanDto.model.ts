@@ -1,5 +1,6 @@
 import { KhachHangDto } from "../KhachHangs/KhachHangDto.model";
 import { ChiTietDto } from "../ChiTietSPs/ChiTietDto.model";
+import { CTDonBanDto } from "../HoaDonBans/CTDonBanDto.model";
 import { KhachHang } from "../Data/Models/KhachHang.model";
 import { OrderStatus } from "../Enums/OrderStatus.enum";
 import { CTDonBan } from "../Data/Models/CTDonBan.model";
@@ -22,5 +23,6 @@ export class HoaDonBanDto {
 	updatedAt: Date | null = null;
 	status: OrderStatus = OrderStatus.ChoXacNhan;
 	khachHang: KhachHangDto | null = null;
+	chiTiet: CTDonBanDto[] | null = [];
 	chiTiet: CTDonBan[] | null = [];
 }

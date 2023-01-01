@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221231091002_Updated_Settings")]
+    partial class Updated_Settings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -453,7 +455,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Settings");
+                    b.ToTable("Slide");
                 });
 
             modelBuilder.Entity("Data.Models.ThuongHieu", b =>
@@ -536,11 +538,11 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("78f5610c-77be-45a7-be07-effb2bab65ff"),
-                            CreatedAt = new DateTime(2022, 12, 31, 22, 37, 55, 168, DateTimeKind.Local).AddTicks(7536),
+                            CreatedAt = new DateTime(2022, 12, 31, 16, 10, 2, 246, DateTimeKind.Local).AddTicks(5666),
                             CreatedBy = "Seeding",
                             Email = "admin@test.tt",
                             FullName = "Quản trị viên",
-                            Password = "$2a$11$fBuOBckCXDIbVKxQreaTxe6.UV5rw0J6V9tUIeDi/B7UMKcE07n86",
+                            Password = "$2a$11$1jIbh6xcgigOeR7Tycs9SOimtQq9LTk5MNDxqN261R.Ggyejj9z1S",
                             PhoneNumber = "0987654321",
                             Roles = "_ad",
                             UserName = "admin"

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Contracts.Slides
+namespace Services.Contracts.Settings
 {
     public class SettingDto : Setting
     {

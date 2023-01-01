@@ -1,6 +1,6 @@
 ﻿using Data.Models;
 using Services.Contracts;
-using Services.Contracts.Slides;
+using Services.Contracts.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,0 +1,81 @@
+<form
+  [formGroup]="form"
+  class="p-fluid"
+  (submit)="submit()"
+>
+  <div class="field">
+    <label for="tenLSP">Loại thiết lập</label>
+    <p-dropdown
+      [options]="types"
+      optionValue="value"
+      optionLabel="label"
+      formControlName="type"
+    ></p-dropdown>
+  </div>
+  <div
+    class="field"
+    *ngIf="value"
+  >
+    <label for="">Danh sách ảnh</label>
+    <div class="grid">
+      <div
+        class="col-3"
+        *ngFor="let image of value.dsAnh"
+      >
+        <p-image
+          appendTo="body"
+          [preview]="true"
+          [style]="{
+            width: '100%',
+            height: '100%',
+            'background-color': 'whitesmoke'
+          }"
+          [imageStyle]="{
+            width: '100%',
+            height: '100%',
+            'object-fit': 'contain'
+          }"
+          [src]="image | externalUrl"
+        ></p-image>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label for="anh">Tải ảnh lên</label>
+    <p-fileUpload
+      type="text"
+      name="anh"
+      id="anh"
+      accept="image/*"
+      [showUploadButton]="false"
+      chooseLabel="Chọn"
+      cancelLabel="Hủy"
+      [multiple]="true"
+    ></p-fileUpload>
+  </div>
+  <div class="field">
+    <label for="">Tiêu đề</label>
+    <input
+      type="text"
+      formControlName="title"
+      pInputText
+    />
+  </div>
+  <div class="field">
+    <label for="">Nội dung</label>
+    <p-editor
+      formControlName="content"
+      [style]="{ height: '20rem' }"
+    ></p-editor>
+  </div>
+  <div class="flex mt-3 justify-content-end">
+    <button
+      pButton
+      pRipple
+      label="Lưu"
+      class="p-button-outlined p-button-success w-auto"
+      icon="fa-regular fa-floppy-disk"
+      type="submit"
+    ></button>
+  </div>
+</form>

@@ -60,10 +60,7 @@ namespace Services.Implements
 
             var productDetail = ctQuery.FirstOrDefault(p => input.DonVi == p.DonVi
                 && input.IdSanPham == p.IdSanPham
-                && input.TSKT == p.TSKT
                 && input.Code == p.Code
-                && input.MauSac == p.MauSac
-                && input.KichThuoc == p.KichThuoc
             );
 
             if (productDetail != null)
@@ -83,6 +80,9 @@ namespace Services.Implements
                     TSKT = input.TSKT,
                     DonVi = input.DonVi,
                     DVT = input.DVT,
+                    AnhCT = input.AnhCT,
+                    Gia = input.Gia,
+                    MoTa = input.MoTa,
                 });
             }
             if (productDetail != null)

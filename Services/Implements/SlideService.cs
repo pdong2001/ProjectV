@@ -2,7 +2,7 @@
 using Data.Models;
 using Data.Repositories;
 using Services.Contracts;
-using Services.Contracts.Slides;
+using Services.Contracts.Settings;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;

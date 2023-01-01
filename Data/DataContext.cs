@@ -23,7 +23,7 @@ namespace Data
         public DbSet<Log> Logs { get; set; }
         public DbSet<LoaiSP> LoaiSP { get; set; }
         public DbSet<SanPham> SanPham { get; set; }
-        public DbSet<Setting> Slide { get; set; }
+        public DbSet<Setting> Settings { get; set; }
         public DbSet<KhachHang> KhachHang { get; set; }
         public DbSet<ThuongHieu> ThuongHieu { get; set; }
         public DbSet<ChiTietSP> ChiTietSP { get; set; }

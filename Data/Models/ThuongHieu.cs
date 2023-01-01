@@ -11,5 +11,6 @@ namespace Data.Models
     {
         public string TenTH { get; set; }
         public string Logo { get; set; }
+        public ICollection<SanPham> DSSanPham { get; set; }
     }
 }

@@ -31,6 +31,7 @@ namespace Services.Implements
         public override IQueryable<SanPham> BeforeGet(int id, IQueryable<SanPham> query)
         {
             query = query
+                .Include(s => s.ChiTietSP)
                 .Include(s => s.ThuongHieu)
                 .Include(s => s.LoaiSP);
             return base.BeforeGet(id, query);

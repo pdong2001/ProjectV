@@ -9,6 +9,7 @@ export class CreateUpdateChiTietDto {
 	tskt: string | null = "";
 	donVi: string | null = "";
 	anhCT: string | null = "";
+	uuDai: any = 0;
 	mauSac: string | null = "";
 	kichThuoc: any = 0;
 }

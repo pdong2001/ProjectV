@@ -1,3 +1,7 @@
 .field.col {
   min-width: 200px;
 }
+
+.p-float-label label {
+  padding-left: 1rem;
+}

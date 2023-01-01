@@ -6,7 +6,7 @@ using Services.Contracts.HoaDonBans;
 using Services.Contracts.KhachHangs;
 using Services.Contracts.LoaiSPs;
 using Services.Contracts.SanPhams;
-using Services.Contracts.Slides;
+using Services.Contracts.Settings;
 using Services.Contracts.ThuongHieus;
 using Services.Contracts.Users;
 

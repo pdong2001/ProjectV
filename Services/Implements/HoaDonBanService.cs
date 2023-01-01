@@ -113,14 +113,29 @@ namespace Services.Implements
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             if (input.ChiTiet.Count == 0) throw new UserFriendlyException("Vui lòng nhập chi tiết");
-            var response = await base.CreateAsync(input);
-            if (response.Success && input.ChiTiet.Any())
+            var kh = _context.KhachHang.AsNoTracking().FirstOrDefault(k => k.Id == input.IdKhachHang);
+            if (kh == null) throw new UserFriendlyException("Khách hàng không tồn tại");
+            if (string.IsNullOrEmpty(input.Tinh))
             {
-                input.ChiTiet.ForEach(ct => ct.HoaDonId = response.Data);
-                if (await AddCTAsync(input.ChiTiet) == 0)
+                input.Tinh = kh.Tinh;
+                input.Huyen = kh.Huyen;
+                input.Xa = kh.Xa;
+                input.DiaChi = kh.DiaChi;
+            }
+            var ct = input.ChiTiet;
+            input.ChiTiet = new List<CreateUpdateCTDonBanDto>();
+            var response = await base.CreateAsync(input);
+            if (response.Success && ct.Any())
+            {
+                ct.ForEach(ct => ct.HoaDonId = response.Data);
+                if (await AddCTAsync(ct) == 0)
                 {
                     await transaction.RollbackAsync();
                     throw new UserFriendlyException("Lưu chi tiết thất bại");
+                }
+                else
+                {
+
                 }
             }
             await transaction.CommitAsync();
@@ -179,7 +194,8 @@ namespace Services.Implements
                 .Include(e => e.KhachHang)
                 .Where(e => !request.IdKhachHang.HasValue || request.IdKhachHang.Value == e.IdKhachHang)
                 .Where(e => !request.Start.HasValue || request.Start.Value <= e.CreatedAt)
-                .Where(e => !request.End.HasValue || request.End.Value >= e.CreatedAt);
+                .Where(e => !request.End.HasValue || request.End.Value >= e.CreatedAt)
+                .Where(e => e.ChiTiet.Any());
 
             if (request.Status.HasValue)
             {

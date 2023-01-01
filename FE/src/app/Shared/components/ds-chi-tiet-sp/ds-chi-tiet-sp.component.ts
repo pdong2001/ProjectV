@@ -7,7 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Observable } from 'rxjs';
 import { ChiTietDto } from 'src/app/Shared/models/ChiTietSPs/ChiTietDto.model';
@@ -56,6 +56,7 @@ export class DSChiTietSPComponent implements OnInit {
     private chiTietSPService: ChiTietSPService,
     private message: MessageService,
     private sanPhamService: SanPhamService,
+    private confirmation: ConfirmationService,
     breadCrumb: BreadCrumbService
   ) {
     breadCrumb.setPageTitle('Quản lý chi tiết sản phẩm');
@@ -110,7 +111,6 @@ export class DSChiTietSPComponent implements OnInit {
   }
 
   public showAdd() {
-    return;
     this.selectedItem = new ChiTietDto();
     this.showDialog = true;
   }
@@ -120,7 +120,23 @@ export class DSChiTietSPComponent implements OnInit {
     this.showDialog = true;
   }
 
-  public showDelete() {}
+  public showDelete() {
+    if (this.selectedItems.length) {
+      this.confirmation.confirm({
+        message: 'Bạn có chắc chắn muốn xóa chi tiết sản phẩm này?',
+        header: 'Xác nhận',
+        accept: () => {
+          this.chiTietSPService
+            .deleteMany(this.selectedItems.map((s) => s.id))
+            .subscribe({
+              next: (res) => {
+                this.loadChiTietSP();
+              },
+            });
+        },
+      });
+    }
+  }
 
   public save(data: CreateUpdateChiTietDto) {
     let resposne: Observable<ServiceResponse<ChiTietDto>>;

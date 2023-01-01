@@ -197,13 +197,14 @@
         <label for="">Khách hàng</label>
         <p-dropdown
           [options]="dsKhachHang"
-          optionValue="id"
+          dataKey="id"
           optionLabel="hoTen"
           placeholder="Chưa chọn khách hàng"
           [filter]="true"
           filterBy="hoTen,sdt,email"
           [(ngModel)]="selectedKH"
           [ngModelOptions]="{ standalone: true }"
+          [readonly]="isReadonly"
         ></p-dropdown>
       </div>
       <div class="field col">
@@ -211,7 +212,6 @@
         <input
           type="text"
           pInputText
-          [readOnly]="true"
           [ngModel]="selectedKH?.sdt"
           [ngModelOptions]="{ standalone: true }"
         />
@@ -224,6 +224,7 @@
           type="text"
           pInputText
           formControlName="tinh"
+          [readOnly]="isReadonly"
         />
       </div>
       <div class="field col">
@@ -232,6 +233,7 @@
           type="text"
           pInputText
           formControlName="huyen"
+          [readOnly]="isReadonly"
         />
       </div>
       <div class="field col">
@@ -240,6 +242,7 @@
           type="text"
           pInputText
           formControlName="xa"
+          [readOnly]="isReadonly"
         />
       </div>
       <div class="field col">
@@ -248,6 +251,7 @@
           type="text"
           pInputText
           formControlName="diaChi"
+          [readOnly]="isReadonly"
         />
       </div>
     </div>
@@ -291,6 +295,7 @@
           icon="pi pi-plus"
           [disabled]="slSanPham.value == 0 || ddSanPham.value == undefined"
           (click)="addCT(ddSanPham.value, slSanPham.value)"
+          type="button"
           class="mt-3"
         ></button>
       </div>
@@ -322,7 +327,7 @@
 <ng-template #ctTable>
   <div class="field">
     <p-table
-      [value]="selectedItem?.chiTiet ?? []"
+      [value]="dsChiTiet"
       dataKey="id"
     >
       <ng-template pTemplate="header">
@@ -410,6 +415,17 @@
             (click)="updateStatus(OrderStatus.TuChoi)"
           >
             Từ chối
+          </button>
+        </div>
+        <div class="field col-fixed">
+          <button
+            *ngIf="selectedItem.yeuCauHuy"
+            type="button"
+            pButton
+            class="p-button-warning"
+            (click)="updateStatus(OrderStatus.Huy)"
+          >
+            Hủy
           </button>
         </div>
       </ng-container>

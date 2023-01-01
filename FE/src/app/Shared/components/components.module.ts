@@ -34,6 +34,7 @@ import { PipesModule } from '../pipes/pipes.module';
 import { DialogModule } from 'primeng/dialog';
 import { BadgeModule } from 'primeng/badge';
 import { DonNhapComponent } from './don-nhap/don-nhap.component';
+import { SettingComponent } from './setting/setting.component';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -49,6 +50,7 @@ import { DonNhapComponent } from './don-nhap/don-nhap.component';
     ThuongHieuComponent,
     DSChiTietSPComponent,
     DonNhapComponent,
+    SettingComponent,
   ],
   imports: [
     CommonModule,
@@ -84,7 +86,8 @@ import { DonNhapComponent } from './don-nhap/don-nhap.component';
     ThuongHieuComponent,
     DSChiTietSPComponent,
     DonNhapComponent,
-    KhachHangComponent
+    KhachHangComponent,
+    SettingComponent,
   ],
 })
 export class ComponentsModule {}

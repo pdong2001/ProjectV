@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Data.Models;
 using Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 using Services.Contracts.ThuongHieus;
 using Services.Interfaces;
@@ -16,6 +17,16 @@ namespace Services.Implements
     {
         public ThuongHieuService(IRepository<int, ThuongHieu> repos, IMapper mapper) : base(repos, mapper)
         {
+        }
+
+        protected override IQueryable<ThuongHieu> BeforeSearch(IQueryable<ThuongHieu> query, PageLookUpDto request)
+        {
+            query = query
+                .Include(e => e.DSSanPham)
+                .ThenInclude(e => e.ChiTietSP)
+                .Include(e => e.DSSanPham)
+                .ThenInclude(e => e.LoaiSP);
+            return base.BeforeSearch(query, request);
         }
     }
 }
