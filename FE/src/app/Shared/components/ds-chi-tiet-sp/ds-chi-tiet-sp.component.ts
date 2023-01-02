@@ -148,6 +148,7 @@ export class DSChiTietSPComponent implements OnInit {
     if (id) {
       resposne = this.chiTietSPService.update(id, data);
     } else {
+      data.soLuong = 0;
       resposne = this.chiTietSPService.create(data);
     }
     resposne.subscribe({

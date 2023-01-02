@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Services.Contracts.ChiTietSPs
         /// Đơn vị đo kích thước
         /// </summary>
         public string DonVi { get; set; }
+        [DefaultValue(0)]
         public int SoLuong { get; set; }
         public string DVT { get; set; }
         public string? AnhCT { get; set; }

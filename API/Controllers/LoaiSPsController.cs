@@ -9,7 +9,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoaiSPsController : PagedCRUDBaseController<int, LoaiSP, LoaiSPDto, CreateUpdateLoaiSPDto, PageLookUpDto>
+    public class LoaiSPsController : PagedCRUDBaseController<int, LoaiSP, LoaiSPDto, CreateUpdateLoaiSPDto, LoaiSPLookUpDto>
     {
         public LoaiSPsController(ILoaiSanPhamService service) : base(service)
         {

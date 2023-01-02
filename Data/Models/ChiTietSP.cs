@@ -28,7 +28,7 @@ namespace Data.Models
 
         [ForeignKey(nameof(SanPham))]
         public int IdSanPham { get; set; }
-
+        public int DaBan { get; set; }
         public SanPham SanPham { get; set; }
 
     }

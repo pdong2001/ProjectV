@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Services.Implements
 {
-    public class LoaiSanPhamService : PagedCRUDService<int, LoaiSP, LoaiSPDto, CreateUpdateLoaiSPDto, PageLookUpDto>, ILoaiSanPhamService
+    public class LoaiSanPhamService : PagedCRUDService<int, LoaiSP, LoaiSPDto, CreateUpdateLoaiSPDto, LoaiSPLookUpDto>, ILoaiSanPhamService
     {
         public LoaiSanPhamService(IRepository<int, LoaiSP> repos, IMapper mapper) : base(repos, mapper)
         {
@@ -29,13 +29,17 @@ namespace Services.Implements
             return base.BeforeGet(id, query);
         }
 
-        protected override IQueryable<LoaiSP> BeforeSearch(IQueryable<LoaiSP> query, PageLookUpDto request)
+        protected override IQueryable<LoaiSP> BeforeSearch(IQueryable<LoaiSP> query, LoaiSPLookUpDto request)
         {
             query = query
                 .Include(e => e.DSSanPham)
                 .ThenInclude(e => e.ChiTietSP)
                 .Include(e => e.DSSanPham)
                 .ThenInclude(e => e.ThuongHieu);
+            if (request.HasProductOnly)
+            {
+                query = query.Where(e => e.DSSanPham.Where(s => s.ChiTietSP.Any()).Any());
+            }
             return base.BeforeSearch(query, request);
         }
     }

@@ -53,14 +53,15 @@ namespace Services.Implements
                 entity.Status is (OrderStatus.HoanThanh or OrderStatus.ChapNhan or OrderStatus.DangGiao))
             {
                 var sanPham = await _ctDonBan.GetQueryable()
-                    .Where(e => e.HoaDonId == id && e.SanPham.Code != null && e.SanPham.Code.Length > 0)
+                    .Where(e => e.HoaDonId == id)
                     .Select(e => new { e.SoLuong, e.SanPham })
                     .ToListAsync();
                 sanPham.ForEach(s =>
                 {
-                    s.SanPham.SoLuong -= s.SoLuong;
+                    s.SanPham.DaBan += s.SoLuong;
+                    if (s.SanPham.Code != null && !string.IsNullOrEmpty(s.SanPham.Code)) s.SanPham.SoLuong -= s.SoLuong;
                 });
-                if (sanPham.Any(s => s.SoLuong < 0))
+                if (sanPham.Where(s => s.SanPham.Code != null && !string.IsNullOrEmpty(s.SanPham.Code)).Any(s => s.SoLuong < 0))
                 {
                     throw new UserFriendlyException("Số lượng sản phẩm trong kho không đủ");
                 }
@@ -73,7 +74,8 @@ namespace Services.Implements
                     .ToListAsync();
                 sanPham.ForEach(s =>
                 {
-                    s.SanPham.SoLuong += s.SoLuong;
+                    s.SanPham.DaBan -= s.SoLuong;
+                    if (s.SanPham.Code != null && !string.IsNullOrEmpty(s.SanPham.Code)) s.SanPham.SoLuong += s.SoLuong;
                 });
                 _context.ChiTietSP.AttachRange(sanPham.Select(s => s.SanPham));
             }
@@ -146,7 +148,13 @@ namespace Services.Implements
 
         protected async Task<int> AddCTAsync(IEnumerable<CreateUpdateCTDonBanDto> input)
         {
-            return await _ctDonBan.AddRangeAsync(input.Select(i => _mapper.Map<CreateUpdateCTDonBanDto, CTDonBan>(i)));
+            var items = input.Select(i => _mapper.Map<CreateUpdateCTDonBanDto, CTDonBan>(i)).ToList();
+            items.ForEach(async i =>
+            {
+                if (i.SanPham == null) i.SanPham = await _context.ChiTietSP.FindAsync(i.SanPhamId);
+                i.DonGia = (int)(i.DonGia - i.SanPham.UuDai / 100 * i.DonGia);
+            });
+            return await _ctDonBan.AddRangeAsync(items);
         }
 
         public async Task<ServiceResponse<IEnumerable<DoanhSoDto>>> ThongKeDoanhSo(DoanhSoRequestDto request)

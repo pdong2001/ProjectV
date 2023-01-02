@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Services.Interfaces
 {
-    public interface ILoaiSanPhamService : IPagedCRUDService<int, LoaiSP, LoaiSPDto, CreateUpdateLoaiSPDto, PageLookUpDto>
+    public interface ILoaiSanPhamService : IPagedCRUDService<int, LoaiSP, LoaiSPDto, CreateUpdateLoaiSPDto, LoaiSPLookUpDto>
     {
     }
 }
