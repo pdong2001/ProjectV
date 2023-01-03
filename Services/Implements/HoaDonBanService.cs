@@ -44,13 +44,20 @@ namespace Services.Implements
             return ServiceResponse.CreateSuccess();
         }
 
+        /// <summary>
+        /// Cập nhật trạng thái
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        /// <exception cref="UserFriendlyException"></exception>
         public async Task<ServiceResponse> UpdateStatusAsync(int id, OrderStatus status)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             var entity = await repos.GetAsync(id);
             if (entity == null) throw new UserFriendlyException("Đơn hàng không còn trên hệ thống");
             if (entity.Status is (OrderStatus.ChoXacNhan or OrderStatus.TuChoi) &&
-                entity.Status is (OrderStatus.HoanThanh or OrderStatus.ChapNhan or OrderStatus.DangGiao))
+                status is (OrderStatus.HoanThanh or OrderStatus.ChapNhan or OrderStatus.DangGiao))
             {
                 var sanPham = await _ctDonBan.GetQueryable()
                     .Where(e => e.HoaDonId == id)
@@ -59,13 +66,13 @@ namespace Services.Implements
                 sanPham.ForEach(s =>
                 {
                     s.SanPham.DaBan += s.SoLuong;
-                    if (s.SanPham.Code != null && !string.IsNullOrEmpty(s.SanPham.Code)) s.SanPham.SoLuong -= s.SoLuong;
+                    if (!string.IsNullOrEmpty(s.SanPham.Code)) s.SanPham.SoLuong -= s.SoLuong;
                 });
-                if (sanPham.Where(s => s.SanPham.Code != null && !string.IsNullOrEmpty(s.SanPham.Code)).Any(s => s.SoLuong < 0))
+                if (sanPham.Where(s => !string.IsNullOrEmpty(s.SanPham.Code)).Any(s => s.SanPham.SoLuong < 0))
                 {
                     throw new UserFriendlyException("Số lượng sản phẩm trong kho không đủ");
                 }
-                _context.ChiTietSP.AttachRange(sanPham.Select(s => s.SanPham));
+                _context.ChiTietSP.UpdateRange(sanPham.Select(s => s.SanPham).ToList());
             }
             else if (entity.Status is (OrderStatus.ChapNhan or OrderStatus.DangGiao) && status is OrderStatus.Huy)
             {
@@ -77,7 +84,7 @@ namespace Services.Implements
                     s.SanPham.DaBan -= s.SoLuong;
                     if (s.SanPham.Code != null && !string.IsNullOrEmpty(s.SanPham.Code)) s.SanPham.SoLuong += s.SoLuong;
                 });
-                _context.ChiTietSP.AttachRange(sanPham.Select(s => s.SanPham));
+                _context.ChiTietSP.UpdateRange(sanPham.Select(s => s.SanPham));
             }
             await _context.SaveChangesAsync();
             entity.Status = status;
@@ -149,10 +156,11 @@ namespace Services.Implements
         protected async Task<int> AddCTAsync(IEnumerable<CreateUpdateCTDonBanDto> input)
         {
             var items = input.Select(i => _mapper.Map<CreateUpdateCTDonBanDto, CTDonBan>(i)).ToList();
-            items.ForEach(async i =>
+            items.ForEach(i =>
             {
-                if (i.SanPham == null) i.SanPham = await _context.ChiTietSP.FindAsync(i.SanPhamId);
+                if (i.SanPham == null) i.SanPham = _context.ChiTietSP.Find(i.SanPhamId);
                 i.DonGia = (int)(i.DonGia - i.SanPham.UuDai / 100 * i.DonGia);
+                i.SanPham = null;
             });
             return await _ctDonBan.AddRangeAsync(items);
         }

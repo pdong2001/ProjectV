@@ -357,6 +357,7 @@ export class OrderListComponent implements OnInit {
               next: (res) => {
                 if (res.success) {
                   this.loadData();
+                  this.selectedItems = [];
                   this.message.add({
                     detail: 'Xoá thành công',
                     severity: 'success',

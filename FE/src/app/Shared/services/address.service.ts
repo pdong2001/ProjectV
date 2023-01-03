@@ -14,7 +14,7 @@ export class AddressService {
       return of(this.cache);
     }
     return this.httpClient
-      .get<Province[]>('/assets/json/address.json', {})
+      .get<Province[]>('assets/json/address.json', {})
       .pipe(
         tap((res) => {
           this.cache = res;

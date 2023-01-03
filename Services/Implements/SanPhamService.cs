@@ -50,6 +50,16 @@ namespace Services.Implements
             {
                 query = query.Where(s => s.IdLoaiSP == request.IdLoaiSP.Value);
             }
+            if (!string.IsNullOrWhiteSpace(request.Search))
+            {
+                var searchValue = $"%{string.Join("%", request.Search.ToCharArray())}%";
+                query = query.Where(s =>
+                    EF.Functions.Like(s.TenSP, searchValue) ||
+                    EF.Functions.Like(s.LoaiSP.TenLSP, searchValue) ||
+                    EF.Functions.Like(s.ThuongHieu.TenTH, searchValue) ||
+                    EF.Functions.Like(s.MoTa, searchValue)
+                );
+            }
             if (request.IdThuongHieu.HasValue)
             {
                 query = query.Where(s => s.IdThuongHieu == request.IdThuongHieu.Value);

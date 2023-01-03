@@ -35,6 +35,16 @@ export class ApiInterceptor implements HttpInterceptor {
           });
         }
         break;
+      case 400:
+        if (new Date() >= this.nextMessageAt) {
+          this.nextMessageAt = new Date(Date.now() + 2000);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Thông báo',
+            detail: `${error.error}`,
+          });
+        }
+        break;
       case 401:
         if (!this.processingUnauthorized && new Date() >= this.nextMessageAt) {
           this.processingUnauthorized = true;

@@ -11,5 +11,6 @@ export class ChiTietDto {
   ten: string | null = '';
   soLuong: string | null = '';
   kichThuoc: number = 0;
-	uuDai: number = 0;
+  uuDai: number = 0;
+  daBan: number = 0;
 }
