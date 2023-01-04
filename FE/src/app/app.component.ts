@@ -7,7 +7,7 @@ import { PrimeNGConfig } from 'primeng/api';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'CMS | Juice Fruit';
+  title = 'CMS | OFarm';
   constructor(primeConfig: PrimeNGConfig) {
     primeConfig.ripple = true;
     primeConfig.setTranslation({

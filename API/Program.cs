@@ -79,7 +79,6 @@ builder.Services.AddDbContext<DataContext>(o =>
 
 builder.Services.AddServices();
 
-//builder.Services.Validate();
 
 builder.Services.AddAutoMapper();
 
